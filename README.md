@@ -1,7 +1,13 @@
-# Tauri + React + Typescript
+# De Barbiekoe APP
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+Hoe gebruik je fatsoenlijk de BarbieKoe repo
 
-## Recommended IDE Setup
+## Hoe moet je de app runnen
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+1. `git clone https://github.com/RaoulvanWijk/BarbieKoe.git`
+2. `npm install`
+3. `npm run tauri dev`
+
+## Requirements
+
+[Rust](https://www.rust-lang.org/tools/install), [Node](https://nodejs.org/en/)
