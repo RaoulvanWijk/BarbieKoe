@@ -4,6 +4,7 @@ import itertools
 import random
 from findPoint import findB, findC
 from checkColors import checkColorHorizontal, checkColorVertical
+from generateList import generatePlaces, generateJSON
 
 # get the image and resize
 img = cv2.imread("assets/MapOld.png")
@@ -92,9 +93,10 @@ for c in cornerArray:
                 middleY = ya + ((yc - ya) / 2)
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 red = random.randint(0, 255)
+                areaNumber = len(areas) + 1
                 cv2.putText(
                     imgLine,
-                    str([xa, ya]),
+                    str(areaNumber),
                     (xa, ya),
                     font,
                     0.2,
@@ -103,9 +105,12 @@ for c in cornerArray:
                     cv2.LINE_AA,
                 )
                 cv2.rectangle(imgLine, (xa, ya), (xc, yc), (0, 0, 0), 1)
-                areaNumber = len(areas) + 1
-                areas.append([[xa, ya], [xb, yb], [xc, yc], [xd, yd]])
-
+                
+                areas.append([areaNumber, [xa, ya], [xb, yb], [xc, yc], [xd, yd]])
+                generatePlaces([areaNumber, [[xa, ya], [xb, yb], [xc, yc], [xd, yd]]])
+                
+# generate the json file
+generateJSON()
 
 # show fields
 cv2.imshow("yes", imgLine)
