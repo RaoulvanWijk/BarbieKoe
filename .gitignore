@@ -13,6 +13,8 @@ dist-ssr
 *.local
 *.lock
 package-lock.json
+*.pyc
+src-py/commands/__pycache__/
 
 # Editor directories and files
 .vscode/*
