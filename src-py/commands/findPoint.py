@@ -4,7 +4,6 @@ def findC(xa, ya, cornerArray):
         for i in range(-2, 2):
             if xb == (xa + i):
                 if yb == ya:
-                    print("Skipped")
                     continue
                 return [xb, yb]
             else:
