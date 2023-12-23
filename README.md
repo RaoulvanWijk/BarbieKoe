@@ -26,7 +26,16 @@ How to use the BarbieKoe project
 
 [python3](https://www.python.org/downloads/), [openCV](https://pypi.org/project/opencv-python/), [numpy](https://numpy.org/install/)
 
-## Code structure
-
-- src: the main program
-- src-py: program to optimally utilize the ground of an map
+## File structure
+```
+- resources (folder for styling, images and fonts)
+- --> styles (folder for styling)
+- --> images (folder for images)
+- --> fonts (folder for fonts)
+- src (folder for the website stuff)
+- --> components (folder for all the react components)
+- --> lib (folder for backend stuff)
+- --> pages (folder for all the pages)
+- --> utils (folder for usefull tools that can be used everywhere)
+- src-py (program to optimally utilize the ground of an map)
+```
