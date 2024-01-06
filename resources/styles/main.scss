@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "./config/colors.scss";
+
+#root {
+  overflow-x: hidden;
+  height: 100svh;
+  background: var(--background-color)
+}
