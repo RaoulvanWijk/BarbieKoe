@@ -1,0 +1,25 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  
+  .login-content {
+    display: flex;
+    flex-direction: row;
+    overflow-x: hidden;
+    width: 200vw;
+    transition: transform 0.6s ease-in-out;
+    height: 100%;
+    &.user-active {
+      transform: translateX(0%);
+    }
+    &.login-active {
+      transform: translateX(-50%);
+    }
+
+  }
+  .logo-absolute {
+    height: 6rem;
+    
+  }
+
+}
