@@ -18,6 +18,9 @@ export default function Login() {
         />
         <LoginForm />
       </div>
+      <div className="h-32">
+        <p>Help</p>
+      </div>
     </div>
   );
 }

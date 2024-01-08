@@ -14,7 +14,7 @@ export default function Users(usersProps: UsersProps) {
   const testUser = {
     id: 1,
     username: 'test',
-    profilePicture: 'default',
+    profilePicture: null,
     createdAt: '2021-08-01T00:00:00.000Z',
     updatedAt: '2021-08-01T00:00:00.000Z',
   } as any;
@@ -25,7 +25,11 @@ export default function Users(usersProps: UsersProps) {
   }
   return (
     <div className='login-users-container'>
-
+      {
+        users.map(user => (
+          <UserItem key={user.id} user={user} onClick={handleUserClick} />
+        ))
+      }
       <UserItem user={testUser} onClick={handleUserClick} />
     </div>
   )
