@@ -34,7 +34,7 @@ export default function Users(usersProps: UsersProps) {
       <UserItem user={testUser} onClick={handleUserClick} />
       <UserItem user={testUser} onClick={handleUserClick} />
       <UserItem user={testUser} onClick={handleUserClick} />
-      <UserItem user={testUser} onClick={handleUserClick} />
+      {/* <UserItem user={testUser} onClick={handleUserClick} /> */}
     </div>
   )
 }

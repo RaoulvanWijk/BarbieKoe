@@ -3,6 +3,7 @@ import "/resources/styles/pages/login.scss";
 import logo from "/resources/images/logo.svg";
 import Users from "@components/Login/Users";
 import LoginForm from "@components/Login/LoginForm";
+import Footer from "@/components/Login/Footer";
 
 export default function Login() {
   const [loginActive, setLoginActive] = useState(false);
@@ -18,9 +19,7 @@ export default function Login() {
         />
         <LoginForm />
       </div>
-      <div className="h-32">
-        <p>Help</p>
-      </div>
+      <Footer />
     </div>
   );
 }
