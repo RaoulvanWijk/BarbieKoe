@@ -10,11 +10,11 @@ type UserItemProps = {
 
 export default function UserItem(userItemProps: UserItemProps) {
   return (
-    <div onClick={() => {
+    <div className='user-item' onClick={() => {
       userItemProps.onClick(userItemProps.user)
     }}>
       <img src={userItemProps.user.profilePicture ?? defaultPng} alt="Profile Picture" />
-      <div>{userItemProps.user.username}</div>
+      <p>{userItemProps.user.username}</p>
     </div>
   )
 }
