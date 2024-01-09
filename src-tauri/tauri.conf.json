@@ -40,7 +40,7 @@
         "height": 600,
         "title": "barbiekoe",
         "focus": true,
-        "contentProtected": true
+        "contentProtected": false
       }
     ]
   }
