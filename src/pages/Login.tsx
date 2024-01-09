@@ -19,7 +19,7 @@ export default function Login() {
         />
         <LoginForm />
       </div>
-      <Footer />
+      <Footer loginActive={loginActive} setLoginActive={setLoginActive} />
     </div>
   );
 }
