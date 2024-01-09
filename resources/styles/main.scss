@@ -1,1 +1,12 @@
-// Styling voor alle paginas zet hier niet dingen in die voor 1 pagina zijn
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./config/colors.scss";
+@import "./config/typography.scss";
+
+#root {
+  overflow-x: hidden;
+  height: 100svh;
+  background: var(--background-color)
+}
