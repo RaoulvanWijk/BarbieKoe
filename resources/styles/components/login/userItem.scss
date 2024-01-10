@@ -1,0 +1,29 @@
+.user-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 14rem;
+    gap: .5rem;
+    cursor: pointer;
+    height: fit-content;
+    transition: transform .1s ease-in-out;
+    transition-delay: .05s;
+
+    img {
+        object-fit: cover;
+        aspect-ratio: 1/1;
+        border-radius: 999rem;
+        border: 1.5rem solid white;
+    }
+
+    p {
+        font-size: 1.5em;
+        font-weight: 700;
+        color: var(--main-text-color);
+    }
+
+    &:hover {
+        transform: scale(1.05);
+    }
+}

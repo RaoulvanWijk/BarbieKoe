@@ -36,9 +36,11 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "barbiekoe",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "title": "barbiekoe",
+        "focus": true,
+        "contentProtected": false
       }
     ]
   }

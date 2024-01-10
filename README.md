@@ -21,12 +21,3 @@ How to use the BarbieKoe project
 ### main app
 
 [Rust](https://www.rust-lang.org/tools/install), [Node](https://nodejs.org/en/)
-
-### map generator
-
-[python3](https://www.python.org/downloads/), [openCV](https://pypi.org/project/opencv-python/), [numpy](https://numpy.org/install/)
-
-## Code structure
-
-- src: the main program
-- src-py: program to optimally utilize the ground of an map
