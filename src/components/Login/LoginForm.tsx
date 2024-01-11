@@ -5,14 +5,12 @@ import "/resources/styles/components/login/loginForm.scss";
 import UserItem from "./UserItem";
 import { loginSchema, TLoginSchema } from "@/lib/types/zodSchemes";
 
-export default function LoginForm() {
-  const testUser = {
-    id: 1,
-    username: "test",
-    profilePicture: null,
-    createdAt: "2021-08-01T00:00:00.000Z",
-    updatedAt: "2021-08-01T00:00:00.000Z",
-  } as any;
+type LoginFormProps = {
+  selectedUser: any;
+};
+
+export default function LoginForm(loginFormProps: LoginFormProps) {
+
 
   const {
     register,
@@ -31,7 +29,7 @@ export default function LoginForm() {
 
   return (
     <div className="login-form-container">
-      <UserItem user={testUser} onClick={() => {}} notHoverable={true} />
+      <UserItem user={loginFormProps.selectedUser} onClick={() => {}} notHoverable={true} />
       <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <input

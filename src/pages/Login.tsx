@@ -9,6 +9,13 @@ import { set } from "react-hook-form";
 export default function Login() {
   const [loginActive, setLoginActive] = useState(false);
   const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState({
+    id: null,
+    username: "No user selected",
+    profilePicture: null,
+    createdAt: "2021-08-01T00:00:00.000Z",
+    updatedAt: "2021-08-01T00:00:00.000Z",
+  } as any);
   const getUsers = async () => {
     const data = await (await fetch("/api/auth/users")).json();
     return data;
@@ -27,8 +34,9 @@ export default function Login() {
           loginActive={loginActive}
           setLoginActive={setLoginActive}
           users={users}
+          onUserClick={setSelectedUser}
         />
-        <LoginForm />
+        <LoginForm selectedUser={selectedUser} />
       </div>
       <Footer loginActive={loginActive} setLoginActive={setLoginActive} />
     </div>
