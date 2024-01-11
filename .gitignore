@@ -28,3 +28,4 @@ src-py/commands/places.json
 *.njsproj
 *.sln
 *.sw?
+*.env
