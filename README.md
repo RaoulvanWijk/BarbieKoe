@@ -9,6 +9,10 @@ How to use the BarbieKoe project
 1. `git clone https://github.com/RaoulvanWijk/BarbieKoe.git`
 2. `npm install`
 3. `npm run tauri dev`
+4. `cd server`
+5. `npm install`
+6. `mklink /J "src/lib/types" "../src/lib/types"` (in admin powershell)
+7. `npm run run`
 
 ### De python app
 
