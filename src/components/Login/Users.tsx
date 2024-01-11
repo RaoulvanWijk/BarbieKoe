@@ -12,14 +12,6 @@ type UsersProps = {
 export default function Users(usersProps: UsersProps) {
   const { users, loginActive, setLoginActive } = usersProps;
 
-  const testUser = {
-    id: 1,
-    username: 'test',
-    profilePicture: null,
-    createdAt: '2021-08-01T00:00:00.000Z',
-    updatedAt: '2021-08-01T00:00:00.000Z',
-  } as any;
-
   const handleUserClick = (user: any) => {
     console.log(user);
     setLoginActive(true);
@@ -32,11 +24,6 @@ export default function Users(usersProps: UsersProps) {
           <UserItem key={user.id} user={user} onClick={handleUserClick} />
         ))
       }
-      {/* <UserItem user={testUser} onClick={handleUserClick} />
-      <UserItem user={testUser} onClick={handleUserClick} />
-      <UserItem user={testUser} onClick={handleUserClick} />
-      <UserItem user={testUser} onClick={handleUserClick} /> */}
-      {/* <UserItem user={testUser} onClick={handleUserClick} /> */}
     </div>
   )
 }
