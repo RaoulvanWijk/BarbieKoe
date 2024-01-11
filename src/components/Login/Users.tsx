@@ -1,19 +1,19 @@
-import React from 'react'
 import "/resources/styles/components/login/users.scss";
 import UserItem from './UserItem';
+import { SafeUser as User } from "@lib/types/database";
+
 
 type UsersProps = {
-  users: any[],
+  users: User[],
   loginActive: boolean,
   setLoginActive: (loginActive: boolean) => void,
-  onUserClick: (user: any) => void,
+  onUserClick: (user: User) => void,
 }
 
 export default function Users(usersProps: UsersProps) {
   const { users, loginActive, setLoginActive } = usersProps;
 
-  const handleUserClick = (user: any) => {
-    console.log(user);
+  const handleUserClick = (user: User) => {
     setLoginActive(true);
     usersProps.onUserClick(user);
   }
