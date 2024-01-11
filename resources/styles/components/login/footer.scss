@@ -1,0 +1,51 @@
+.login-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 8rem;
+    margin: 0 6rem;
+}
+
+.back-button {
+    position: relative;
+    opacity: 0;
+    pointer-events: none;
+    padding-left: 1.6rem;
+    transition: opacity .55s ease-in-out;
+    &.visible {
+        opacity: 1;
+        pointer-events: all;
+    }
+    &::before {
+        content: '<';
+        color: white;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: black;
+        width: 1.6rem;
+        height: 1.6rem;
+        left: -.5rem;
+        border-radius: 999rem;
+    }
+}
+
+.help-button {
+    position: relative;
+    &::before {
+        content: '?';
+        color: white;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: black;
+        width: 1.6rem;
+        height: 1.6rem;
+        left: -2rem;
+        border-radius: 999rem;
+    }
+}
