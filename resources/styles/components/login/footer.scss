@@ -7,6 +7,7 @@
 }
 
 .back-button {
+    @apply select-none;
     position: relative;
     opacity: 0;
     pointer-events: none;
@@ -33,6 +34,7 @@
 }
 
 .help-button {
+    @apply select-none;
     position: relative;
     &::before {
         content: '?';
