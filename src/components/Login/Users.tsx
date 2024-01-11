@@ -6,6 +6,7 @@ type UsersProps = {
   users: any[],
   loginActive: boolean,
   setLoginActive: (loginActive: boolean) => void,
+  onUserClick: (user: any) => void,
 }
 
 export default function Users(usersProps: UsersProps) {
@@ -22,6 +23,7 @@ export default function Users(usersProps: UsersProps) {
   const handleUserClick = (user: any) => {
     console.log(user);
     setLoginActive(true);
+    usersProps.onUserClick(user);
   }
   return (
     <div className='login-users-container'>
