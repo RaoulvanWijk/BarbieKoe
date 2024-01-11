@@ -10,8 +10,6 @@ type LoginFormProps = {
 };
 
 export default function LoginForm(loginFormProps: LoginFormProps) {
-
-
   const {
     register,
     handleSubmit,
@@ -29,7 +27,7 @@ export default function LoginForm(loginFormProps: LoginFormProps) {
 
   return (
     <div className="login-form-container">
-      <UserItem user={loginFormProps.selectedUser} onClick={() => {}} notHoverable={true} />
+      <UserItem user={loginFormProps.selectedUser} onClick={null} />
       <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <input
@@ -37,9 +35,9 @@ export default function LoginForm(loginFormProps: LoginFormProps) {
             type="password"
             {...register("password")}
           />
-          {errors.password && <p>{errors.password.message}</p>}
           <button type="submit">&gt;</button>
         </div>
+          {errors.password && <p className="text-red-500">{errors.password.message}</p>}
         <a href="">Wachtwoord vergeten?<br />
         </a>
       </form>
