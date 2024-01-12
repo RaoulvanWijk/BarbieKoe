@@ -4,12 +4,17 @@ import { useForm } from "react-hook-form";
 import "/resources/styles/components/login/loginForm.scss";
 import UserItem from "./UserItem";
 import { loginSchema, TLoginSchema } from "@/lib/types/zodSchemes";
+import { SafeUser } from "@/lib/types/database";
+
+// import react redirect to redirect to home page after login
+import { useNavigate   } from "react-router";
 
 type LoginFormProps = {
-  selectedUser: any;
+  selectedUser: SafeUser;
 };
 
 export default function LoginForm(loginFormProps: LoginFormProps) {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -22,7 +27,25 @@ export default function LoginForm(loginFormProps: LoginFormProps) {
 
   const onSubmit = async (data: TLoginSchema) => {
     console.log(data);
-    
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      body: JSON.stringify({
+        user_id: loginFormProps.selectedUser.id,
+        password: data.password,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response);
+    if(!response.ok) {
+      setError("password", {
+        type: "manual",
+        message: "Wachtwoord is onjuist"
+      })
+    }
+      navigate("/dashboard");
+
   };
 
   return (
