@@ -2,6 +2,7 @@ import { SafeUser, ResultSetHeader, LoginUser } from "../lib/types/database";
 import { Router } from "express";
 import { query } from "../lib/db";
 import bcryptjs from "bcryptjs";
+import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
 
 const router = Router();
 
@@ -14,6 +15,8 @@ router.get("/users", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+  console.log(req.body);
+  
   // Get id and password from the body
   const {user_id, password } = req.body;
 
@@ -41,7 +44,18 @@ router.post("/login", async (req, res) => {
     return res.status(500).send({ error: error.message });
   }
 
-  res.status(200).send(user[0][0]);
+  const token = jwt.sign({ id: user_id, username: user[0][0].username, profile_picture: user[0][0].profile_picture }, process.env.JWT_SECRET_KEY as Secret, {
+    expiresIn: '2 days',
+  });
+
+  console.log(token);
+  
+  const resu = (await query("CALL sp_create_session(?, ?)", [ user_id, token ])) as [ResultSetHeader];
+
+  res.status(200).setHeader(
+    "Set-Cookie",
+    `token=${token}; HttpOnly; Path=/; Max-Age=172800`
+  ).send({ token });
 });
 
 module.exports = router;
