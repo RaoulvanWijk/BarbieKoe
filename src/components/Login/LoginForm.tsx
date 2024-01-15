@@ -43,8 +43,9 @@ export default function LoginForm(loginFormProps: LoginFormProps) {
         type: "manual",
         message: "Wachtwoord is onjuist"
       })
-    }
+    } else {
       navigate("/dashboard");
+    }
 
   };
 
