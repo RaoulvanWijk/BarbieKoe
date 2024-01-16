@@ -30,7 +30,8 @@
       ]
     },
     "security": {
-      "csp": null
+      "csp": null,
+      "dangerousUseHttpScheme": true
     },
     "windows": [
       {
