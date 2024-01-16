@@ -1,0 +1,28 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  font-family: baloo-paaji-2;
+  font-weight: bold;
+  
+  .login-content {
+    display: flex;
+    flex-direction: row;
+    overflow-x: hidden;
+    width: 200vw;
+    transition: transform 0.6s ease-in-out;
+    height: calc(100vh - 16rem);
+    &.user-active {
+      transform: translateX(0%);
+    }
+    &.login-active {
+      transform: translateX(-50%);
+    }
+
+  }
+  .logo-absolute {
+    display: block;
+    height: 4rem;
+    margin: 2rem 0;
+  }
+
+}

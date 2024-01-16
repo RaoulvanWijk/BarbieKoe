@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./config/colors.scss";
+@import "./config/typography.scss";
+body {
+  overflow: hidden;
+}
+#root {
+  overflow-x: hidden;
+  height: 100svh;
+  background: var(--background-color)
+}
