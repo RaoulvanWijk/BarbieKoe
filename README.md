@@ -20,6 +20,12 @@ How to use the BarbieKoe project
 2. `cd src-py/commands`
 3. `py main.py`
 
+### De python app
+
+1. Make sure to install all the requirements
+2. `cd src-py/commands`
+3. `py main.py`
+
 ## Requirements
 
 ### main app
@@ -30,7 +36,6 @@ How to use the BarbieKoe project
 
 [python3](https://www.python.org/downloads/), [openCV](https://pypi.org/project/opencv-python/), [numpy](https://numpy.org/install/)
 
-## File structure
 ```
 - resources (folder for styling, images and fonts)
 - --> styles (folder for styling)
@@ -43,3 +48,4 @@ How to use the BarbieKoe project
 - --> utils (folder for usefull tools that can be used everywhere)
 - src-py (program to optimally utilize the ground of an map)
 ```
+
