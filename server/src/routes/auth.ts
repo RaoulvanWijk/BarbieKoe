@@ -1,4 +1,4 @@
-import { SafeUser, ResultSetHeader, LoginUser } from "../../../src/lib/types/databasea";
+import { SafeUser, ResultSetHeader, LoginUser } from "../../../src/lib/types/database";
 import { Router } from "express";
 import { query } from "../lib/db";
 import bcryptjs from "bcryptjs";
