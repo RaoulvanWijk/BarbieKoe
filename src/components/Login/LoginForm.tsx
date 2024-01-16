@@ -1,4 +1,3 @@
-import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import "/resources/styles/components/login/loginForm.scss";
@@ -19,7 +18,6 @@ export default function LoginForm(loginFormProps: LoginFormProps) {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
     setError,
   } = useForm<TLoginSchema>({
     resolver: zodResolver(loginSchema),
