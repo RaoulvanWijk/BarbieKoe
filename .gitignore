@@ -15,7 +15,7 @@ dist-ssr
 package-lock.json
 *.pyc
 src-py/commands/__pycache__/
-src-py/commands/assets/optimised/
+src-py/commands/assets/optimised/*
 src-py/commands/places.json
 
 # Editor directories and files

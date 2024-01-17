@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "/resources/styles/pages/login.scss";
 import logo from "/resources/images/logo.svg";
 import Users from "@components/Login/Users";

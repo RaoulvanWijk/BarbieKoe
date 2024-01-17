@@ -12,7 +12,7 @@ type UsersProps = {
 
 export default function Users(usersProps: UsersProps) {
   const { users, loginActive, setLoginActive } = usersProps;
-
+  loginActive
   const handleUserClick = (user: User) => {
     setLoginActive(true);
     usersProps.onUserClick(user);
