@@ -20,12 +20,6 @@ How to use the BarbieKoe project
 2. `cd src-py/commands`
 3. `py main.py`
 
-### De python app
-
-1. Make sure to install all the requirements
-2. `cd src-py/commands`
-3. `py main.py`
-
 ## Requirements
 
 ### main app
