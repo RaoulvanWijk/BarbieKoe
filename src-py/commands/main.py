@@ -1,5 +1,5 @@
 from findPoint import findB, findC
-from checkColors import checkColor
+from checkColors import checkColor, checkPointColor
 from generateList import generatePlaces, generateJSON
 from checkFamily import checkFamily
 import numpy as np
@@ -41,23 +41,7 @@ def get_corners(gray):
     return corners
 
 
-def checkPointColor(corners, img):
-    orange = np.array([77, 145, 255])
-    blue = np.array([255, 182, 56])
-
-    validPoints = []
-
-    for corner in corners:
-        x, y = corner.ravel()
-        placeColor = img[y, x]
-        if np.array_equal(placeColor, orange) or np.array_equal(placeColor, blue):
-            continue
-        else:
-            validPoints.append([x, y])
-    validPoints.sort()
-    return validPoints
-
-
+# get the B coordinates
 def getBCoords(x, y, cornerArray):
     options = [cb for cb in cornerArray if findB(y, cb[0], cb[1]) is not None]
 
@@ -109,11 +93,19 @@ def process_image(img):
 
         # check if the line is matching bad colors
         res2 = findC(xb, yb, cornerArray)
+        if res2 == None:
+            continue
+
+        # c coordinates
+        xc, yc = res2
         if (
             res2 == None
-            or checkColor(yb, res2[1], res2[0], imgLine, " vertical")
-            or checkColor(y, res2[1], x, imgLine, "vertical")
-            or checkColor(x, res2[0], res2[1], imgLine, "horizontal")
+            # right line
+            or checkColor(yb, yc, xc, imgLine, " vertical")
+            # left line
+            or checkColor(y, yc, x, imgLine, "vertical")
+            # bottom line
+            or checkColor(x, xc, yc, imgLine, "horizontal")
         ):
             continue
         # create a number for the area and draw it
@@ -129,12 +121,12 @@ def process_image(img):
             cv2.LINE_AA,
         )
 
-        area = [areaNumber, [[x, y], [xb, yb], res2, [x, res2[1]]]]
+        area = [areaNumber, [[x, y], [xb, yb], [xc, yc], [x, yc]]]
 
         if checkFamily(area):
-            cv2.rectangle(imgLine, (x, y), (res2[0], res2[1]), (255, 0, 0), 1)
+            cv2.rectangle(imgLine, (x, y), (xc, yc), (255, 0, 0), 1)
         else:
-            cv2.rectangle(imgLine, (x, y), (res2[0], res2[1]), (0, 0, 0), 1)
+            cv2.rectangle(imgLine, (x, y), (xc, yc), (0, 0, 0), 1)
         # draw the rectangle
 
         # add the area to the list and generate the places
