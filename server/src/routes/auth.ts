@@ -15,16 +15,13 @@ router.get("/users", async (req, res) => {
 });
 
 router.get("/validate", async (req, res) => {
-  const token = req.cookies.token;
-  console.log(token);
+  const token = req.cookies?.token ?? '';
   if (!token) return res.status(401).send({ error: "No token provided" });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as Secret) as JwtPayload;
-    console.log(decoded);
-    const resu = (await query("CALL sp_get_session(?)", [decoded.id])) as [[{token: string}], ResultSetHeader];
-    console.log(resu);
+    const resu = (await query("CALL sp_get_session(?)", [token])) as [[{token: string}], ResultSetHeader];
     if (resu[0][0].token !== token) return res.status(401).send({ error: "Token is invalid" });
-    res.status(200).send({ token });
+    return res.status(200).send({ token });
   } catch (error: any) {
     return res.status(500).send({ error: error.message });
   }
@@ -32,7 +29,7 @@ router.get("/validate", async (req, res) => {
 );
 
 router.post("/login", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   
   // Get id and password from the body
   const {user_id, password } = req.body;
@@ -44,7 +41,7 @@ router.post("/login", async (req, res) => {
 
   // If the user doesn't exist, send a 404 error
   // if (!user[0][0]) return res.status(404).send({ error: "User not found" });
-  console.log(user[0][0]);
+  // console.log(user[0][0]);
 
   try {
     // Compare the password from the body with the password from the database
@@ -65,7 +62,7 @@ router.post("/login", async (req, res) => {
     expiresIn: '2 days',
   });
 
-  console.log(token);
+  // console.log(token);
   
   const resu = (await query("CALL sp_create_session(?, ?)", [ user_id, token ])) as [ResultSetHeader];
 

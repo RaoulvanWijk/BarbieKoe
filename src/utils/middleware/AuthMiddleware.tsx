@@ -1,23 +1,36 @@
-import { Navigate, Route, Routes, Outlet } from "react-router-dom";
-import React from "react";
+import { Navigate, Route, Routes, Outlet, useLocation  } from "react-router-dom";
+import React, {useEffect, useState} from "react";
 
 export const AuthMiddleware = () => {
-  // console.log("user", children);
-  
-  // debugger
-  if (!user) {
-    // user is not authenticated
-    return (
-      <Routes>
-        <Route path="*"
-          element={
-            <Navigate
-              to="/"
-            />
-          }
-        />
-      </Routes>
-    );
+  const location = useLocation();
+
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchUser = async () => {
+      const response = await fetch("/api/auth/validate");
+      const data = await response.json();
+      
+      setUser(data);
+      setLoading(false);
+    };
+
+    fetchUser();  
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
-  return <Outlet />;
+
+  if(!user || user.error && location.pathname === "/") {
+    return <Outlet />;
+  } else if (user && location.pathname === "/") {
+    return <Navigate to="/dashboard" />;
+  } else if (!user || user.error && location.pathname !== "/") {
+    return <Navigate to="/" />;
+  } else {
+    return <Outlet />;
+  }
 };
