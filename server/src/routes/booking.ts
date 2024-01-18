@@ -1,22 +1,20 @@
 import { Express, Router } from "express";
 import conn, { query } from "../lib/db";
-import { TBookingSchema, bookingSchema } from "../types/zodSchemes";
 import {
+  TBookingSchema,
+  bookingSchema,
   TCreateAccommodationsSchema,
   createAccommodationsSchema,
-} from "../types/zodSchemes";
-import {
   TCreateCostGuestSchema,
   createCostGuestSchema,
+  TCreateCampingSpots,
+  createCampingSpots,
 } from "../types/zodSchemes";
-import { TCreateCampingSpots, createCampingSpots } from "../types/zodSchemes";
 const router = Router();
 
 // Alle API endpoints voor het maken van data m.b.t. reserveringen
 
 router.post("/createBooking", async (req, res) => {
-  console.log(req.body);
-
   const validateResult = bookingSchema.safeParse(req.body);
   if (!validateResult.success) {
     res.status(400).send(validateResult.error.message);
@@ -85,6 +83,7 @@ router.post("/createBooking", async (req, res) => {
   );
 
   res.status(200).send(`Succesvol een nieuw form aangemaakt.`);
+  conn.end();
 });
 
 router.post("/createCostGuest", async (req, res) => {
@@ -102,6 +101,7 @@ router.post("/createCostGuest", async (req, res) => {
   );
 
   res.status(200).send("Succesvol een nieuw soort gast en kosten aangemaakt");
+  conn.end();
 });
 
 router.post("/createAccommodations", async (req, res) => {
@@ -119,6 +119,7 @@ router.post("/createAccommodations", async (req, res) => {
   );
 
   res.status(200).send("Succesvol een nieuw accomodatie type aangemaakt");
+  conn.end();
 });
 
 router.post("/createCampingSpots", async (req, res) => {
@@ -137,6 +138,7 @@ router.post("/createCampingSpots", async (req, res) => {
   );
 
   res.status(200).send("Succesvol een camping spot aangemaakt");
+  conn.end();
 });
 // Einde API post endpoints m.b.t. reserveringen
 
