@@ -1,10 +1,15 @@
 import { Express, Router } from "express";
 import conn, { query } from "../lib/db";
+import { TBookingSchema, bookingSchema } from "../types/zodSchemes";
 import {
-  TBookingSchema,
-  bookingSchema,
+  TCreateAccommodationsSchema,
+  createAccommodationsSchema,
 } from "../types/zodSchemes";
-
+import {
+  TCreateCostGuestSchema,
+  createCostGuestSchema,
+} from "../types/zodSchemes";
+import { TCreateCampingSpots, createCampingSpots } from "../types/zodSchemes";
 const router = Router();
 
 // Alle API endpoints voor het maken van data m.b.t. reserveringen
@@ -83,7 +88,13 @@ router.post("/createBooking", async (req, res) => {
 });
 
 router.post("/createCostGuest", async (req, res) => {
-  const { person_type, cost } = req.body;
+  const validateResult = createCostGuestSchema.safeParse(req.body);
+  if (!validateResult.success) {
+    res.status(400).send(validateResult.error.message);
+    return;
+  }
+
+  const { person_type, cost } = validateResult.data;
 
   await query(
     "INSERT INTO cost_guest_sort (person_type, cost, created_at, updated_at) VALUES (?,?,NOW(),NOW())",
@@ -94,7 +105,13 @@ router.post("/createCostGuest", async (req, res) => {
 });
 
 router.post("/createAccommodations", async (req, res) => {
-  const { accommodation_type, description_note, cost } = req.body;
+  const validateResult = createAccommodationsSchema.safeParse(req.body);
+  if (!validateResult.success) {
+    res.status(400).send(validateResult.error.message);
+    return;
+  }
+
+  const { accommodation_type, description_note, cost } = validateResult.data;
 
   await query(
     "INSERT INTO accommodations (accommodation_type, description_note, cost, created_at, updated_at) VALUES(?,?,?,NOW(),NOW())",
@@ -105,7 +122,14 @@ router.post("/createAccommodations", async (req, res) => {
 });
 
 router.post("/createCampingSpots", async (req, res) => {
-  const { accommodations_id, spot_name, spot_status, notes } = req.body;
+  const validateResult = createCampingSpots.safeParse(req.body);
+  if (!validateResult.success) {
+    res.status(400).send(validateResult.error.message);
+    return;
+  }
+
+  const { accommodations_id, spot_name, spot_status, notes } =
+    validateResult.data;
 
   await query(
     "INSERT INTO camping_spots (accommodations_id, spot_name, spot_status, notes, created_at, updated_at) VALUES(?,?,?,?,NOW(),NOW())",

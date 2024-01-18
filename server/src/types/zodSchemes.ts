@@ -26,21 +26,15 @@ export const bookingSchema = z.object({
     required_error: "Selecteer alstublieft een datum en tijd",
   }),
   // ARRIVAL EN DEPARTURE KRIJGEN ISO STRINGS: 2023-01-10T00:00:00.000Z, MYSQL VERANDERT HET AUTOMATISCH NAAR DATETIME
-  adult: z
-    .number()
-    .nonnegative({
-      message: "Aantal volwassenen moet een nummer zijn en niet negatief",
-    }),
-  child: z
-    .number()
-    .nonnegative({
-      message: "Aantal kinderen moet een nummer zijn en niet negatief",
-    }),
-  young_child: z
-    .number()
-    .nonnegative({
-      message: "Aantal jonge kinderen moet een nummer zijn en niet negatief",
-    }),
+  adult: z.number().nonnegative({
+    message: "Aantal volwassenen moet een nummer zijn en niet negatief",
+  }),
+  child: z.number().nonnegative({
+    message: "Aantal kinderen moet een nummer zijn en niet negatief",
+  }),
+  young_child: z.number().nonnegative({
+    message: "Aantal jonge kinderen moet een nummer zijn en niet negatief",
+  }),
   booking_status: z.boolean({
     required_error: "Booking status is vereist",
     invalid_type_error: "Booking status moet een boolean zijn",
@@ -58,3 +52,35 @@ export const bookingSchema = z.object({
 });
 
 export type TBookingSchema = z.infer<typeof bookingSchema>;
+
+export const createAccommodationsSchema = z.object({
+  accommodation_type: z.string().min(1, {
+    message: "Accommodatie type moet minimaal één karakter bevatten",
+  }),
+  description_note: z.string().nullable(),
+  cost: z.number().min(0, { message: "Kosten kunnen niet negatief zijn." }),
+});
+
+export type TCreateAccommodationsSchema = z.infer<
+  typeof createAccommodationsSchema
+>;
+
+export const createCostGuestSchema = z.object({
+  person_type: z
+    .string()
+    .min(1, { message: "Een persoon type moet minimaal één karakter zijn" }),
+  cost: z.number().min(0, { message: "Kosten kunnen niet negatief zijn." }),
+});
+
+export type TCreateCostGuestSchema = z.infer<typeof createCostGuestSchema>;
+
+export const createCampingSpots = z.object({
+  accommodations_id: z.number(),
+  spot_name: z
+    .string()
+    .min(1, { message: "Spot naam moet minimaal 1 karakter lang zijn" }),
+  spot_status: z.boolean(),
+  notes: z.string().nullable(),
+});
+
+export type TCreateCampingSpots = z.infer<typeof createCampingSpots>;
