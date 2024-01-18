@@ -1,19 +1,27 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Dashboard from '@pages/Dashboard';
-import Login from '@pages/Login';
-import { AuthRoute } from "./utils/middleware/AuthRoute";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  Routes,
+} from "react-router-dom";
+import Dashboard from "@pages/Dashboard";
+import Login from "@pages/Login";
+import { AuthMiddleware } from "./utils/middleware/AuthMiddleware";
 
-
-export default function RoutesProvider() {
-  return (
-    <BrowserRouter>
-      <Routes>
-          <Route path='/' element={<Login />} />
-          {/* <Route path='/dashboard' element={<Dashboard />} /> */}
-          <AuthRoute>
-            <Route path='/dashboard' element={<Dashboard />} />
-          </AuthRoute>
-      </Routes>
-    </BrowserRouter>
+export const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/">
+      <Route path="/" element={<Login />} />
+      {/* <Route path='/dashboard' element={<Dashboard />} /> */}
+      <Route
+        path="*"
+        element={<AuthMiddleware />}
+        action={async ({ request }) => {
+          return request.headers.getSetCookie();
+        }}
+      >
+        <Route path="dashboard" element={<Dashboard />} />
+      </Route>
+    </Route>
   )
-}
+);
