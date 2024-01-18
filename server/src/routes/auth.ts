@@ -3,6 +3,10 @@ import { Router } from "express";
 import { query } from "../lib/db";
 import bcryptjs from "bcryptjs";
 import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
+import {
+  TLoginSchema,
+  loginSchema,
+} from "../types/zodSchemes";
 
 const router = Router();
 
@@ -30,9 +34,13 @@ router.get("/validate", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   // console.log(req.body);
-  
+  const validateResult = loginSchema.safeParse(req.body);
+  if (!validateResult.success) {
+    res.status(400).send(validateResult.error.message);
+    return;
+  }
   // Get id and password from the body
-  const {user_id, password } = req.body;
+  const { user_id, password } = req.body;
 
   // Get the user from the database using the id
   const user = (await query("CALL sp_get_password_from_user(?)", [
