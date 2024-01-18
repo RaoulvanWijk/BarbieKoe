@@ -82,8 +82,8 @@ router.post("/createBooking", async (req, res) => {
     ]
   );
 
-  res.status(200).send(`Succesvol een nieuw form aangemaakt.`);
   conn.end();
+  res.status(200).send(`Succesvol een nieuw form aangemaakt.`);
 });
 
 router.post("/createCostGuest", async (req, res) => {
@@ -100,8 +100,8 @@ router.post("/createCostGuest", async (req, res) => {
     [person_type, cost]
   );
 
-  res.status(200).send("Succesvol een nieuw soort gast en kosten aangemaakt");
   conn.end();
+  res.status(200).send("Succesvol een nieuw soort gast en kosten aangemaakt");
 });
 
 router.post("/createAccommodations", async (req, res) => {
@@ -118,8 +118,8 @@ router.post("/createAccommodations", async (req, res) => {
     [accommodation_type, description_note, cost]
   );
 
-  res.status(200).send("Succesvol een nieuw accomodatie type aangemaakt");
   conn.end();
+  res.status(200).send("Succesvol een nieuw accomodatie type aangemaakt");
 });
 
 router.post("/createCampingSpots", async (req, res) => {
@@ -137,8 +137,8 @@ router.post("/createCampingSpots", async (req, res) => {
     [accommodations_id, spot_name, spot_status, notes]
   );
 
-  res.status(200).send("Succesvol een camping spot aangemaakt");
   conn.end();
+  res.status(200).send("Succesvol een camping spot aangemaakt");
 });
 // Einde API post endpoints m.b.t. reserveringen
 
