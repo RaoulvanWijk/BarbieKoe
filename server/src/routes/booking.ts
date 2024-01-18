@@ -39,7 +39,6 @@ router.post("/createBooking", async (req, res) => {
     car_status,
     camping_spot_id,
   } = validateResult.data;
-
   const cost = adult * 20 + child * 10 + young_child * 5;
 
   await query(
