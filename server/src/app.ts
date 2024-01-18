@@ -1,10 +1,12 @@
 import Express from 'express';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
+
 
 dotenv.config();
-
 const app = Express();
 app.use(Express.json());
+app.use(cookieParser());
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
