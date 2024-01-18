@@ -1,4 +1,3 @@
-import React from 'react'
 import '/resources/styles/components/login/footer.scss'
 
 type FooterProps = {

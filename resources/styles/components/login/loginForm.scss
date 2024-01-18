@@ -27,6 +27,7 @@
                 text-align: center;
             }
             button {
+                @apply select-none;
                 width: 2.1rem;
                 height: 2.1rem;
                 display: block;

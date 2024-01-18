@@ -12,8 +12,10 @@
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@tauri-apps/api": "^1.5.1",
+    "@types/jsonwebtoken": "^9.0.5",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -25,6 +27,7 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.5.6",
+    "@types/bcryptjs": "^2.4.6",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",

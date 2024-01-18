@@ -1,27 +1,21 @@
-import React from 'react'
 import "/resources/styles/components/login/users.scss";
 import UserItem from './UserItem';
+import { SafeUser as User } from "@lib/types/database";
+
 
 type UsersProps = {
-  users: any[],
+  users: User[],
   loginActive: boolean,
   setLoginActive: (loginActive: boolean) => void,
+  onUserClick: (user: User) => void,
 }
 
 export default function Users(usersProps: UsersProps) {
   const { users, loginActive, setLoginActive } = usersProps;
-
-  const testUser = {
-    id: 1,
-    username: 'test',
-    profilePicture: null,
-    createdAt: '2021-08-01T00:00:00.000Z',
-    updatedAt: '2021-08-01T00:00:00.000Z',
-  } as any;
-
-  const handleUserClick = (user: any) => {
-    console.log(user);
+  loginActive
+  const handleUserClick = (user: User) => {
     setLoginActive(true);
+    usersProps.onUserClick(user);
   }
   return (
     <div className='login-users-container'>
@@ -30,11 +24,6 @@ export default function Users(usersProps: UsersProps) {
           <UserItem key={user.id} user={user} onClick={handleUserClick} />
         ))
       }
-      {/* <UserItem user={testUser} onClick={handleUserClick} />
-      <UserItem user={testUser} onClick={handleUserClick} />
-      <UserItem user={testUser} onClick={handleUserClick} />
-      <UserItem user={testUser} onClick={handleUserClick} /> */}
-      {/* <UserItem user={testUser} onClick={handleUserClick} /> */}
     </div>
   )
 }

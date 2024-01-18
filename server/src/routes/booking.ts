@@ -1,5 +1,9 @@
 import { Express, Router } from "express";
 import conn, { query } from "../lib/db";
+import {
+  TBookingSchema,
+  bookingSchema,
+} from "../types/zodSchemes";
 
 const router = Router();
 
@@ -7,6 +11,12 @@ const router = Router();
 
 router.post("/createBooking", async (req, res) => {
   console.log(req.body);
+
+  const validateResult = bookingSchema.safeParse(req.body);
+  if (!validateResult.success) {
+    res.status(400).send(validateResult.error.message);
+    return;
+  }
 
   const {
     house_number,
@@ -28,8 +38,7 @@ router.post("/createBooking", async (req, res) => {
     license_plate,
     car_status,
     camping_spot_id,
-  } = req.body;
-
+  } = validateResult.data;
   const cost = adult * 20 + child * 10 + young_child * 5;
 
   await query(
