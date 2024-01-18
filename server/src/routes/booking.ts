@@ -12,6 +12,13 @@ import {
 } from "../types/zodSchemes";
 const router = Router();
 
+// router.get("/getCarInfo");
+
+router.get("/getBookkeeping", async (req, res) => {
+  const result: any = await query("SELECT cost, arrival FROM booking;");
+  res.json(result);
+});
+
 // Alle API endpoints voor het maken van data m.b.t. reserveringen
 
 router.post("/createBooking", async (req, res) => {
