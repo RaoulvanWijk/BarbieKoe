@@ -14,6 +14,23 @@ router.get("/users", async (req, res) => {
   res.status(200).send(resu[0]);
 });
 
+router.get("/validate", async (req, res) => {
+  const token = req.cookies.token;
+  console.log(token);
+  if (!token) return res.status(401).send({ error: "No token provided" });
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as Secret) as JwtPayload;
+    console.log(decoded);
+    const resu = (await query("CALL sp_get_session(?)", [decoded.id])) as [[{token: string}], ResultSetHeader];
+    console.log(resu);
+    if (resu[0][0].token !== token) return res.status(401).send({ error: "Token is invalid" });
+    res.status(200).send({ token });
+  } catch (error: any) {
+    return res.status(500).send({ error: error.message });
+  }
+}
+);
+
 router.post("/login", async (req, res) => {
   console.log(req.body);
   
