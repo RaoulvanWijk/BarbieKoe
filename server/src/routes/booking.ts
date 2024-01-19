@@ -12,11 +12,24 @@ import {
 } from "../types/zodSchemes";
 const router = Router();
 
-// router.get("/getCarInfo");
+router.put("/updateCarStatus", async (req, res) => {
+  const {id, car_status} = req.body;
+  if((car_status === 1 || car_status === 0) && id > 0) {
+    await query("UPDATE cars SET car_status = ? WHERE id = ?", [car_status, id]);
+    res.status(200).send("Car status geüpdatet")
+  } else {
+    res.status(400).send("Kon car tabel niet aanpassen, i.v.m. verkeerde data")
+  }
+})
+
+router.get("/getCarInfo", async (req, res) => {
+  const result: any = await query("SELECT id, license_plate, car_status FROM cars")
+  res.status(200).json(result);
+});
 
 router.get("/getBookkeeping", async (req, res) => {
   const result: any = await query("SELECT cost, arrival FROM booking;");
-  res.json(result);
+  res.status(200).json(result);
 });
 
 // Alle API endpoints voor het maken van data m.b.t. reserveringen
