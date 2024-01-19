@@ -1,5 +1,5 @@
 import { Express, Router } from "express";
-import conn, { query } from "../lib/db";
+import { query } from "../lib/db";
 import {
   TBookingSchema,
   bookingSchema,
@@ -102,7 +102,7 @@ router.post("/createBooking", async (req, res) => {
     ]
   );
 
-  conn.end();
+  
   res.status(200).send(`Succesvol een nieuw form aangemaakt.`);
 });
 
@@ -120,7 +120,7 @@ router.post("/createCostGuest", async (req, res) => {
     [person_type, cost]
   );
 
-  conn.end();
+  
   res.status(200).send("Succesvol een nieuw soort gast en kosten aangemaakt");
 });
 
@@ -138,7 +138,7 @@ router.post("/createAccommodations", async (req, res) => {
     [accommodation_type, description_note, cost]
   );
 
-  conn.end();
+  
   res.status(200).send("Succesvol een nieuw accomodatie type aangemaakt");
 });
 
@@ -157,7 +157,7 @@ router.post("/createCampingSpots", async (req, res) => {
     [accommodations_id, spot_name, spot_status, notes]
   );
 
-  conn.end();
+  
   res.status(200).send("Succesvol een camping spot aangemaakt");
 });
 // Einde API post endpoints m.b.t. reserveringen
