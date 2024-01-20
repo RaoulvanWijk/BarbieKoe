@@ -12,6 +12,21 @@ import {
 } from "../types/zodSchemes";
 const router = Router();
 
+router.get("/getFreeCampingSpotAndUpcompingArrival", async (req, res) => {
+  const result = await query(`
+  SELECT camping_spots.id, MIN(booking.arrival) AS first_upcoming_booking
+
+  FROM camping_spots
+  
+  LEFT JOIN booking ON camping_spots.id = booking.camping_spot_id AND (booking.booking_status = 0 OR booking.id IS NULL)
+  
+  WHERE (booking.arrival IS NULL OR booking.arrival > NOW()) AND camping_spots.spot_status = 1
+  
+  GROUP BY camping_spots.id;
+  `);
+  res.status(200).json(result);
+});
+
 router.put("/updateBookingStatus", async (req, res) => {
   const { id, booking_status } = req.body;
   if ((booking_status === 1 || booking_status === 0) && id > 0) {
