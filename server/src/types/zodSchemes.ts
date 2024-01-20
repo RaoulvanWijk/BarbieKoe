@@ -35,16 +35,10 @@ export const bookingSchema = z.object({
   young_child: z.number().nonnegative({
     message: "Aantal jonge kinderen moet een nummer zijn en niet negatief",
   }),
-  booking_status: z.boolean({
-    required_error: "Booking status is vereist",
-    invalid_type_error: "Booking status moet een boolean zijn",
-  }),
+  booking_status: z.number().min(0).max(1),
   notes: z.string().nullable(),
   license_plate: z.string().nullable(),
-  car_status: z.boolean({
-    required_error: "Auto status is vereist",
-    invalid_type_error: "car_status moet een boolean zijn",
-  }),
+  car_status: z.number().min(0).max(1),
   // Kenteken kan wel nullable zijn maar MySQL wilt een boolean waarde in car status tabel, gewoon op 0 zetten.
   camping_spot_id: z
     .number()
@@ -75,12 +69,24 @@ export const createCostGuestSchema = z.object({
 export type TCreateCostGuestSchema = z.infer<typeof createCostGuestSchema>;
 
 export const createCampingSpots = z.object({
-  accommodations_id: z.number(),
+  accommodations_id: z.number().min(1, { message: "Id moet minimaal 1 zijn" }),
   spot_name: z
     .string()
     .min(1, { message: "Spot naam moet minimaal 1 karakter lang zijn" }),
-  spot_status: z.boolean(),
+  spot_status: z.number().min(0).max(1),
   notes: z.string().nullable(),
 });
 
 export type TCreateCampingSpots = z.infer<typeof createCampingSpots>;
+
+export const updateInfoCampingSpots = z.object({
+  camping_spots_id: z.number().min(1, { message: "Id moet minimaal 1 zijn" }),
+  spot_name: z
+    .string()
+    .min(1, { message: "Spot naam moet minimaal 1 karakter bevatten" }),
+  accommodations_id: z.number().min(1),
+  spot_status: z.number().min(0).max(1),
+  notes: z.string().nullable(),
+});
+
+export type TUpdateInfoCampingSpots = z.infer<typeof updateInfoCampingSpots>;
