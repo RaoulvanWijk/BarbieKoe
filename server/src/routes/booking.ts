@@ -12,18 +12,31 @@ import {
 } from "../types/zodSchemes";
 const router = Router();
 
-router.get("/getFreeCampingSpotAndUpcompingArrival", async (req, res) => {
+router.get("/getArrivalsToday", async (req, res) => {
   const result = await query(`
-  SELECT camping_spots.id, spot_name, MIN(booking.arrival) AS first_upcoming_booking
+  SELECT guests.first_name, guests.last_name, arrival, camping_spots.spot_name, guests.phone, booking_status, cost
+  
+  FROM booking
+  
+  JOIN guests ON booking.guest_id = guests.id
+  
+  JOIN camping_spots ON booking.camping_spot_id = camping_spots.id
+  
+  WHERE DATE(booking.arrival) = CURDATE();`);
+  res.status(200).json(result);
+});
+
+router.get("/getAvailableSpots", async (req, res) => {
+  const result = await query(`
+  SELECT camping_spots.id, spot_name, DATEDIFF(MIN(booking.arrival), CURDATE()) AS max_nights_allowed
 
   FROM camping_spots
   
   LEFT JOIN booking ON camping_spots.id = booking.camping_spot_id AND (booking.booking_status = 0 OR booking.id IS NULL)
   
-  WHERE (booking.arrival IS NULL OR booking.arrival > NOW()) AND camping_spots.spot_status = 1
+  WHERE (booking.arrival IS NULL OR DATE(booking.arrival) > CURDATE()) AND camping_spots.spot_status = 1
   
-  GROUP BY camping_spots.id;
-  `);
+  GROUP BY camping_spots.id;`);
   res.status(200).json(result);
 });
 
