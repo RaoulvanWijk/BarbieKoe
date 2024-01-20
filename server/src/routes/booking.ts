@@ -12,18 +12,35 @@ import {
 } from "../types/zodSchemes";
 const router = Router();
 
-router.put("/updateCarStatus", async (req, res) => {
-  const {id, car_status} = req.body;
-  if((car_status === 1 || car_status === 0) && id > 0) {
-    await query("UPDATE cars SET car_status = ? WHERE id = ?", [car_status, id]);
-    res.status(200).send("Car status geüpdatet")
-  } else {
-    res.status(400).send("Kon car tabel niet aanpassen, i.v.m. verkeerde data")
+router.put("updateBookingStatus", async (req, res) => {
+  const { id, booking_status } = req.body;
+  if ((booking_status === 1 || booking_status === 0) && id > 0) {
+    await query(
+      "UPDATE booking SET booking_status = ?, updated_at = NOW() WHERE id = ?",
+      [booking_status, id]
+    );
+    res.status(200).send("Booking status geüpdatet");
   }
-})
+  res.status(400).send("Ongeldig id");
+});
+
+router.put("/updateCarStatus", async (req, res) => {
+  const { id, car_status } = req.body;
+  if ((car_status === 1 || car_status === 0) && id > 0) {
+    await query(
+      "UPDATE cars SET car_status = ?, updated_at = NOW() WHERE id = ?",
+      [car_status, id]
+    );
+    res.status(200).send("Car status geüpdatet");
+  } else {
+    res.status(400).send("Kon car tabel niet aanpassen, i.v.m. verkeerde data");
+  }
+});
 
 router.get("/getCarInfo", async (req, res) => {
-  const result: any = await query("SELECT id, license_plate, car_status FROM cars")
+  const result: any = await query(
+    "SELECT id, license_plate, car_status FROM cars"
+  );
   res.status(200).json(result);
 });
 
@@ -102,7 +119,6 @@ router.post("/createBooking", async (req, res) => {
     ]
   );
 
-  
   res.status(200).send(`Succesvol een nieuw form aangemaakt.`);
 });
 
@@ -120,7 +136,6 @@ router.post("/createCostGuest", async (req, res) => {
     [person_type, cost]
   );
 
-  
   res.status(200).send("Succesvol een nieuw soort gast en kosten aangemaakt");
 });
 
@@ -138,7 +153,6 @@ router.post("/createAccommodations", async (req, res) => {
     [accommodation_type, description_note, cost]
   );
 
-  
   res.status(200).send("Succesvol een nieuw accomodatie type aangemaakt");
 });
 
@@ -157,7 +171,6 @@ router.post("/createCampingSpots", async (req, res) => {
     [accommodations_id, spot_name, spot_status, notes]
   );
 
-  
   res.status(200).send("Succesvol een camping spot aangemaakt");
 });
 // Einde API post endpoints m.b.t. reserveringen
