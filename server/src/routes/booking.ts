@@ -12,7 +12,7 @@ import {
 } from "../types/zodSchemes";
 const router = Router();
 
-router.put("updateBookingStatus", async (req, res) => {
+router.put("/updateBookingStatus", async (req, res) => {
   const { id, booking_status } = req.body;
   if ((booking_status === 1 || booking_status === 0) && id > 0) {
     await query(
