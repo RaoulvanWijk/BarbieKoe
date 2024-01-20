@@ -9,12 +9,35 @@ import {
   createCostGuestSchema,
   TCreateCampingSpots,
   createCampingSpots,
+  TUpdateInfoCampingSpots,
+  updateInfoCampingSpots,
 } from "../types/zodSchemes";
 const router = Router();
 
+router.put("/updateInfoCampingSpots", async (req, res) => {
+  const validateResult = updateInfoCampingSpots.safeParse(req.body);
+  if (!validateResult.success) {
+    res.status(400).send(validateResult.error.message);
+    return;
+  }
+
+  const { camping_spots_id, spot_name, accommodations_id, spot_status, notes } =
+    validateResult.data;
+
+  await query(
+    `
+  UPDATE camping_spots
+  SET spot_name = ?, accommodations_id = ?, spot_status = ?, notes = ?, updated_at = NOW()
+  WHERE id = ?
+  `,
+    [spot_name, accommodations_id, spot_status, notes, camping_spots_id]
+  );
+  res.status(200).send("Succesvol camping spots info bijgewerkt");
+});
+
 router.get("/getInfoCampingSpots", async (req, res) => {
   const result = await query(`
-  SELECT camping_spots.id, spot_name, accommodations.accommodation_type, spot_status, notes
+  SELECT camping_spots.id, spot_name, accommodations_id, accommodations.accommodation_type, spot_status, notes
   
   FROM camping_spots
   
