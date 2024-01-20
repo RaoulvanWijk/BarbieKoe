@@ -12,6 +12,17 @@ import {
 } from "../types/zodSchemes";
 const router = Router();
 
+router.get("/getInfoCampingSpots", async (req, res) => {
+  const result = await query(`
+  SELECT camping_spots.id, spot_name, accommodations.accommodation_type, spot_status, notes
+  
+  FROM camping_spots
+  
+  JOIN accommodations ON camping_spots.accommodations_id = accommodations.id;
+  `);
+  res.status(200).json(result);
+});
+
 router.get("/getArrivalsToday", async (req, res) => {
   const result = await query(`
   SELECT guests.first_name, guests.last_name, arrival, camping_spots.spot_name, guests.phone, booking_status, cost
