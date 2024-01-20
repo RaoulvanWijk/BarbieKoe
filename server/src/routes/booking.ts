@@ -14,7 +14,7 @@ const router = Router();
 
 router.get("/getFreeCampingSpotAndUpcompingArrival", async (req, res) => {
   const result = await query(`
-  SELECT camping_spots.id, MIN(booking.arrival) AS first_upcoming_booking
+  SELECT camping_spots.id, spot_name, MIN(booking.arrival) AS first_upcoming_booking
 
   FROM camping_spots
   
