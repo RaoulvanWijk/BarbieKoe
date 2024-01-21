@@ -93,7 +93,7 @@ router.put("/updateBookingInfo", async (req, res) => {
   res.status(200).send("Booking info geüpdatet");
 });
 
-router.get("/getBookingInfoToday", async (req, res) => {
+router.get("/getCurrentlyRelevantBookingInfo", async (req, res) => {
   const result = await query(`
   SELECT booking.id, first_name, last_name, phone, email, booking.arrival, booking.departure, booking.adult, booking.child, booking.young_child, booking.cost, booking_status, booking.notes, cars.license_plate, cars.car_status, address.house_number, address.city, address.country, address.streetname, address.zipcode, booking.camping_spot_id, camping_spots.spot_name
     FROM guests
