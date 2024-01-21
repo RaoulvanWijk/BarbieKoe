@@ -12,10 +12,13 @@ export const query = (query: string, values?: object | null) => {
     });
 
     conn.query(query, values, (err: any, res: any) => {
-      conn.end()
-      if (err) reject(err);
-      else resolve(res);
+      if (err) {
+        conn.end();
+        reject(err);
+      } else {
+        conn.end();
+        resolve(res);
+      }
     });
   });
 };
-
