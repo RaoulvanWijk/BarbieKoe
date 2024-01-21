@@ -1,27 +1,108 @@
 import { Express, Router } from "express";
 import { query } from "../lib/db";
 import {
-  TBookingSchema,
   bookingSchema,
-  TCreateAccommodationsSchema,
   createAccommodationsSchema,
-  TCreateCostGuestSchema,
   createCostGuestSchema,
-  TCreateCampingSpots,
   createCampingSpots,
-  TUpdateInfoCampingSpots,
   updateInfoCampingSpots,
+  updateBookingInfo,
 } from "../types/zodSchemes";
 const router = Router();
 
-router.get("/getBookingInfo", async (req, res) => {
-  const result = await query(`
-  SELECT booking.id, first_name, last_name, phone, email, booking.arrival, booking.departure, booking.adult, booking.child, booking.young_child, booking.cost, booking_status, booking.notes,cars.license_plate, cars.car_status, address.house_number, address.city, address.country, address.streetname, address.zipcode,booking.camping_spot_id, camping_spots.spot_name
-  FROM guests
+router.put("/updateBookingInfo", async (req, res) => {
+  const validateResult = updateBookingInfo.safeParse(req.body);
+  if (!validateResult.success) {
+    res.status(400).send(validateResult.error.message);
+    return;
+  }
+  const {
+    id,
+    first_name,
+    last_name,
+    phone,
+    email,
+    adult,
+    child,
+    young_child,
+    cost,
+    booking_status,
+    notes,
+    license_plate,
+    car_status,
+    house_number,
+    city,
+    country,
+    streetname,
+    zipcode,
+    camping_spot_id,
+  } = validateResult.data;
+  await query(
+    `
+  UPDATE guests
   INNER JOIN booking ON guests.id = booking.guest_id
   INNER JOIN camping_spots ON booking.camping_spot_id = camping_spots.id
   INNER JOIN cars ON booking.id = cars.booking_id
-  INNER JOIN address ON guests.address_id = address.id;`);
+  INNER JOIN address ON guests.address_id = address.id
+  SET 
+    first_name = ?,
+    last_name = ?,
+    phone = ?,
+    email = ?,
+    guests.updated_at = NOW(),
+    booking.adult = ?,
+    booking.child = ?,
+    booking.young_child = ?,
+    booking.cost = ?,
+    booking.booking_status = ?,
+    booking.notes = ?,
+    booking.updated_at = NOW(),
+    cars.license_plate = ?,
+    cars.car_status = ?,
+    address.house_number = ?,
+    address.city = ?,
+    address.country = ?,
+    address.streetname = ?,
+    address.zipcode = ?,
+    address.updated_at = NOW(),
+    booking.camping_spot_id = ?
+  WHERE booking.id = ?
+  `,
+    [
+      first_name,
+      last_name,
+      phone,
+      email,
+      adult,
+      child,
+      young_child,
+      cost,
+      booking_status,
+      notes,
+      license_plate,
+      car_status,
+      house_number,
+      city,
+      country,
+      streetname,
+      zipcode,
+      camping_spot_id,
+      id,
+    ]
+  );
+  res.status(200).send("Booking info geüpdatet");
+});
+
+router.get("/getBookingInfoToday", async (req, res) => {
+  const result = await query(`
+  SELECT booking.id, first_name, last_name, phone, email, booking.arrival, booking.departure, booking.adult, booking.child, booking.young_child, booking.cost, booking_status, booking.notes, cars.license_plate, cars.car_status, address.house_number, address.city, address.country, address.streetname, address.zipcode, booking.camping_spot_id, camping_spots.spot_name
+    FROM guests
+      INNER JOIN booking ON guests.id = booking.guest_id
+      INNER JOIN camping_spots ON booking.camping_spot_id = camping_spots.id
+      INNER JOIN cars ON booking.id = cars.booking_id
+      INNER JOIN address ON guests.address_id = address.id
+    WHERE booking.booking_status = 1
+     OR DATE(booking.arrival) = CURDATE();`);
   res.status(200).json(result);
 });
 
@@ -59,7 +140,7 @@ router.get("/getInfoCampingSpots", async (req, res) => {
 
 router.get("/getArrivalsToday", async (req, res) => {
   const result = await query(`
-  SELECT guests.first_name, guests.last_name, arrival, camping_spots.spot_name, guests.phone, booking_status, cost
+  SELECT guests.first_name, guests.last_name, arrival, camping_spots.spot_name, guests.phone, booking_status, cost, booking.id
   
   FROM booking
   
