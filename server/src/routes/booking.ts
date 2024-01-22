@@ -9,6 +9,59 @@ import {
 } from "../types/zodSchemes";
 const router = Router();
 
+
+// DELETE BOOKING WERKT ALLEEN MET CASCADING VAN FOREIGN KEYS OP AAN, GEBRUIK HIERVOOR DUS DE NIEUWST VERSIE VAN BARBIEKOE DB.
+router.delete("/delete/:id", async (req, res) => {
+  await query(`
+  DELETE address
+  FROM address
+  JOIN guests ON address.id = guests.address_id
+  JOIN booking ON guests.id = booking.guest_id
+  WHERE booking.id = ?;
+
+  `,[req.params.id]);
+  res.status(200).send("Succesvol address en guests verwijderd")
+})
+
+router.put("/guest-cost", async (req, res) => {
+  const {id, cost} = req.body;
+  if(id <= 0 || cost < 0) {
+    res.status(404).send("Id kan niet 0 of negatief zijn en de kosten mogen niet negatief zijn")
+    return
+  }
+  await query(`
+  UPDATE cost_guest_sort
+  SET
+    cost = ?,
+    updated_at = NOW()
+    WHERE id = ?
+  `, [cost, id]);
+  res.status(200).send("Succesvol een gast soort verwijderd")
+})
+
+router.get("/guest-cost", async (req, res) => {
+  const result = await query(` SELECT * FROM cost_guest_sort`)
+  res.status(200).json(result)
+})
+
+router.delete("/delete-accommodation/:id", async (req, res) =>{
+  await query(`
+  DELETE FROM accommodations
+  WHERE id = ?
+  `, [req.params.id]);
+  res.status(200).send("Succesvol een accommodatie verwijderd")
+})
+
+router.delete("/delete-camping-spot/:id", async (req, res) => {
+  await query(`
+  DELETE FROM camping_spots
+  WHERE id = ?
+  `, [req.params.id]);
+  res.status(200).send("Succesvol een camping spot verwijderd")
+})
+
+
+
 router.put("/update-info/:id", async (req, res) => {
   const validateResult = bookingSchema.safeParse(req.body);
   if (!validateResult.success) {
@@ -37,14 +90,9 @@ router.put("/update-info/:id", async (req, res) => {
     departure,
   } = validateResult.data;
 
-  const cost = adult * 20 + child * 10 + young_child * 5;
-
-  if (
-    (await query(`SELECT COUNT(id) FROM booking WHERE id = ?`, [
-      req.params.id,
-    ])) != 1
-  ) {
-    res.status(404).send("ID BESTAAT NIET");
+  const cost = req.body;
+  if (cost < 0) {
+    res.status(400).send("Let op, kosten kunnen niet negatief zijn")
     return;
   }
 
@@ -107,6 +155,18 @@ router.put("/update-info/:id", async (req, res) => {
   );
   res.status(200).send("Booking info geüpdatet");
 });
+
+router.get("/all", async (req, res) => {
+  const result = await query(`
+  SELECT booking.id, first_name, last_name, phone, email, booking.arrival, booking.departure, booking.adult, booking.child, booking.young_child, booking.cost, booking_status, booking.notes, cars.license_plate, cars.car_status, address.house_number, address.city, address.country, address.streetname, address.zipcode, booking.camping_spot_id, camping_spots.spot_name
+    FROM guests
+      INNER JOIN booking ON guests.id = booking.guest_id
+      INNER JOIN camping_spots ON booking.camping_spot_id = camping_spots.id
+      INNER JOIN cars ON booking.id = cars.booking_id
+      INNER JOIN address ON guests.address_id = address.id
+      `)
+    res.status(200).json(result)
+})
 
 router.get("/info-today", async (req, res) => {
   const result = await query(`
@@ -248,7 +308,15 @@ router.post("/create", async (req, res) => {
     car_status,
     camping_spot_id,
   } = validateResult.data;
-  const cost = adult * 20 + child * 10 + young_child * 5;
+
+  const arrivalDate = new Date(arrival);
+  const departureDate = new Date(departure);
+  arrivalDate.setHours(0, 0, 0, 0);
+  departureDate.setHours(0, 0, 0, 0);
+  const timeDifference = departureDate.getTime() - arrivalDate.getTime();
+  console.log(timeDifference)
+  const daysDifference = Math.round(timeDifference / (1000 * 60 * 60 * 24));
+  const cost = ((adult * 20 + child * 10 + young_child * 5 + 20 ) * daysDifference);
 
   await query(
     `
@@ -308,7 +376,7 @@ router.post("/create-guest-cost", async (req, res) => {
   res.status(200).send("Succesvol een nieuw soort gast en kosten aangemaakt");
 });
 
-router.post("/create-accommodations", async (req, res) => {
+router.post("/create-accommodation", async (req, res) => {
   const validateResult = createAccommodationsSchema.safeParse(req.body);
   if (!validateResult.success) {
     res.status(400).send(validateResult.error.message);
