@@ -16,7 +16,7 @@ export default function Dashboard() {
 
     console.log(getAvailableSpots);
     return (
-        <PageLayout pageTitle="Dashboard>
+        <PageLayout pageTitle="Dashboard">
             {/* placeholder */}
             <div className="container flex-col">
                 <div className="container">
