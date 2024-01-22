@@ -1,19 +1,18 @@
-import React from 'react'
-import { SafeUser as IUser } from '@/lib/types/database'
+import { SafeUser as User } from '@/lib/types/database'
 import '/resources/styles/components/login/userItem.scss'
 import defaultPng from '/resources/images/default-pfp.png'
 
 type UserItemProps = {
-  user: IUser,
-  onClick: (user: IUser) => void | null,
+  user: User,
+  onClick: ((user: User) => void)| null,
 }
 
 export default function UserItem(userItemProps: UserItemProps) {
   return (
-    <div className='user-item' onClick={() => {
-      userItemProps.onClick(userItemProps.user)
+    <div className={'user-item ' + (!userItemProps.onClick ? 'pointer-events-none cursor-none' : '')} onClick={() => {
+      userItemProps.onClick?.(userItemProps.user)
     }}>
-      <img src={userItemProps.user.profilePicture ?? defaultPng} alt="Profile Picture" />
+      <img src={userItemProps.user.profile_picture ?? defaultPng} alt="Profile Picture" />
       <p>{userItemProps.user.username}</p>
     </div>
   )
