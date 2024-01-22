@@ -6,18 +6,16 @@ import {
   createCostGuestSchema,
   createCampingSpots,
   updateInfoCampingSpots,
-  updateBookingInfo,
 } from "../types/zodSchemes";
 const router = Router();
 
-router.put("/updateBookingInfo", async (req, res) => {
-  const validateResult = updateBookingInfo.safeParse(req.body);
+router.put("/update-info/:id", async (req, res) => {
+  const validateResult = bookingSchema.safeParse(req.body);
   if (!validateResult.success) {
     res.status(400).send(validateResult.error.message);
     return;
   }
   const {
-    id,
     first_name,
     last_name,
     phone,
@@ -25,7 +23,6 @@ router.put("/updateBookingInfo", async (req, res) => {
     adult,
     child,
     young_child,
-    cost,
     booking_status,
     notes,
     license_plate,
@@ -36,12 +33,17 @@ router.put("/updateBookingInfo", async (req, res) => {
     streetname,
     zipcode,
     camping_spot_id,
+    arrival,
+    departure,
   } = validateResult.data;
 
-  const idcheck = await query(`SELECT COUNT(id) FROM booking WHERE id = ?`, [
-    id,
-  ]);
-  if (idcheck != 1) {
+  const cost = adult * 20 + child * 10 + young_child * 5;
+
+  if (
+    (await query(`SELECT COUNT(id) FROM booking WHERE id = ?`, [
+      req.params.id,
+    ])) != 1
+  ) {
     res.status(404).send("ID BESTAAT NIET");
     return;
   }
@@ -65,6 +67,8 @@ router.put("/updateBookingInfo", async (req, res) => {
     booking.cost = ?,
     booking.booking_status = ?,
     booking.notes = ?,
+    booking.arrival = ?,
+    booking.departure = ?,
     booking.updated_at = NOW(),
     cars.license_plate = ?,
     cars.car_status = ?,
@@ -88,6 +92,8 @@ router.put("/updateBookingInfo", async (req, res) => {
       cost,
       booking_status,
       notes,
+      arrival,
+      departure,
       license_plate,
       car_status,
       house_number,
@@ -96,13 +102,13 @@ router.put("/updateBookingInfo", async (req, res) => {
       streetname,
       zipcode,
       camping_spot_id,
-      id,
+      req.params.id,
     ]
   );
   res.status(200).send("Booking info geüpdatet");
 });
 
-router.get("/getCurrentlyRelevantBookingInfo", async (req, res) => {
+router.get("/info-today", async (req, res) => {
   const result = await query(`
   SELECT booking.id, first_name, last_name, phone, email, booking.arrival, booking.departure, booking.adult, booking.child, booking.young_child, booking.cost, booking_status, booking.notes, cars.license_plate, cars.car_status, address.house_number, address.city, address.country, address.streetname, address.zipcode, booking.camping_spot_id, camping_spots.spot_name
     FROM guests
@@ -115,7 +121,7 @@ router.get("/getCurrentlyRelevantBookingInfo", async (req, res) => {
   res.status(200).json(result);
 });
 
-router.put("/updateInfoCampingSpots", async (req, res) => {
+router.put("/update-camping-spot", async (req, res) => {
   const validateResult = updateInfoCampingSpots.safeParse(req.body);
   if (!validateResult.success) {
     res.status(400).send(validateResult.error.message);
@@ -136,7 +142,7 @@ router.put("/updateInfoCampingSpots", async (req, res) => {
   res.status(200).send("Succesvol camping spots info bijgewerkt");
 });
 
-router.get("/getInfoCampingSpots", async (req, res) => {
+router.get("/info-camping-spot", async (req, res) => {
   const result = await query(`
   SELECT camping_spots.id, spot_name, accommodations_id, accommodations.accommodation_type, spot_status, notes
   
@@ -147,7 +153,7 @@ router.get("/getInfoCampingSpots", async (req, res) => {
   res.status(200).json(result);
 });
 
-router.get("/getArrivalsToday", async (req, res) => {
+router.get("/info-arrivals", async (req, res) => {
   const result = await query(`
   SELECT guests.first_name, guests.last_name, arrival, camping_spots.spot_name, guests.phone, booking_status, cost, booking.id
   
@@ -161,7 +167,7 @@ router.get("/getArrivalsToday", async (req, res) => {
   res.status(200).json(result);
 });
 
-router.get("/getAvailableSpots", async (req, res) => {
+router.get("/info-available-spot", async (req, res) => {
   const result = await query(`
   SELECT camping_spots.id, spot_name, DATEDIFF(MIN(booking.arrival), CURDATE()) AS max_nights_allowed
 
@@ -175,7 +181,7 @@ router.get("/getAvailableSpots", async (req, res) => {
   res.status(200).json(result);
 });
 
-router.put("/updateBookingStatus", async (req, res) => {
+router.put("/update-status", async (req, res) => {
   const { id, booking_status } = req.body;
   if ((booking_status === 1 || booking_status === 0) && id > 0) {
     await query(
@@ -187,7 +193,7 @@ router.put("/updateBookingStatus", async (req, res) => {
   res.status(400).send("Ongeldig id");
 });
 
-router.put("/updateCarStatus", async (req, res) => {
+router.put("car-status", async (req, res) => {
   const { id, car_status } = req.body;
   if ((car_status === 1 || car_status === 0) && id > 0) {
     await query(
@@ -200,21 +206,21 @@ router.put("/updateCarStatus", async (req, res) => {
   }
 });
 
-router.get("/getCarInfo", async (req, res) => {
+router.get("/info-car", async (req, res) => {
   const result: any = await query(
     "SELECT id, license_plate, car_status FROM cars"
   );
   res.status(200).json(result);
 });
 
-router.get("/getBookkeeping", async (req, res) => {
+router.get("/bookkeeping", async (req, res) => {
   const result: any = await query("SELECT cost, arrival FROM booking;");
   res.status(200).json(result);
 });
 
 // Alle API endpoints voor het maken van data m.b.t. reserveringen
 
-router.post("/createBooking", async (req, res) => {
+router.post("/create", async (req, res) => {
   const validateResult = bookingSchema.safeParse(req.body);
   if (!validateResult.success) {
     res.status(400).send(validateResult.error.message);
@@ -285,7 +291,7 @@ router.post("/createBooking", async (req, res) => {
   res.status(200).send(`Succesvol een nieuw form aangemaakt.`);
 });
 
-router.post("/createCostGuest", async (req, res) => {
+router.post("/create-guest-cost", async (req, res) => {
   const validateResult = createCostGuestSchema.safeParse(req.body);
   if (!validateResult.success) {
     res.status(400).send(validateResult.error.message);
@@ -302,7 +308,7 @@ router.post("/createCostGuest", async (req, res) => {
   res.status(200).send("Succesvol een nieuw soort gast en kosten aangemaakt");
 });
 
-router.post("/createAccommodations", async (req, res) => {
+router.post("/create-accommodations", async (req, res) => {
   const validateResult = createAccommodationsSchema.safeParse(req.body);
   if (!validateResult.success) {
     res.status(400).send(validateResult.error.message);
@@ -319,7 +325,7 @@ router.post("/createAccommodations", async (req, res) => {
   res.status(200).send("Succesvol een nieuw accomodatie type aangemaakt");
 });
 
-router.post("/createCampingSpots", async (req, res) => {
+router.post("/create-camping-spot", async (req, res) => {
   const validateResult = createCampingSpots.safeParse(req.body);
   if (!validateResult.success) {
     res.status(400).send(validateResult.error.message);

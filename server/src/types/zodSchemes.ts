@@ -90,31 +90,3 @@ export const updateInfoCampingSpots = z.object({
 });
 
 export type TUpdateInfoCampingSpots = z.infer<typeof updateInfoCampingSpots>;
-
-export const updateBookingInfo = z.object({
-  id: z.number().min(1, { message: "Id moet minimaal 1 zijn" }),
-  first_name: z.string().nullable(),
-  last_name: z.string().nullable(),
-  phone: z.string().nullable(),
-  email: z.string().email().nullable(),
-  adult: z
-    .number()
-    .min(0, { message: "Volwasennen aantal moet minstens 0 zijn" }),
-  child: z.number().min(0, { message: "Kind aantal moet minstens 0 zijn" }),
-  young_child: z
-    .number()
-    .min(0, { message: "Jong kind aantal moet minstens 0 zijn" }),
-  cost: z.number().min(0, { message: "Kosten moeten minimaal 0 zijn" }),
-  booking_status: z.number().min(0).max(1),
-  notes: z.string().nullable(),
-  license_plate: z.string().nullable(),
-  car_status: z.number().min(0).max(1),
-  house_number: z.string().nullable(),
-  city: z.string().nullable(),
-  country: z.string().nullable(),
-  streetname: z.string().nullable(),
-  zipcode: z.string().nullable(),
-  camping_spot_id: z.number().min(1, { message: "Id moet minimaal 1 zijn" }),
-});
-
-export type TUpdateBookingInfo = z.infer<typeof updateBookingInfo>;
