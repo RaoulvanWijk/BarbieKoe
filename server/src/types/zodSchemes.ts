@@ -26,31 +26,19 @@ export const bookingSchema = z.object({
     required_error: "Selecteer alstublieft een datum en tijd",
   }),
   // ARRIVAL EN DEPARTURE KRIJGEN ISO STRINGS: 2023-01-10T00:00:00.000Z, MYSQL VERANDERT HET AUTOMATISCH NAAR DATETIME
-  adult: z
-    .number()
-    .nonnegative({
-      message: "Aantal volwassenen moet een nummer zijn en niet negatief",
-    }),
-  child: z
-    .number()
-    .nonnegative({
-      message: "Aantal kinderen moet een nummer zijn en niet negatief",
-    }),
-  young_child: z
-    .number()
-    .nonnegative({
-      message: "Aantal jonge kinderen moet een nummer zijn en niet negatief",
-    }),
-  booking_status: z.boolean({
-    required_error: "Booking status is vereist",
-    invalid_type_error: "Booking status moet een boolean zijn",
+  adult: z.number().nonnegative({
+    message: "Aantal volwassenen moet een nummer zijn en niet negatief",
   }),
+  child: z.number().nonnegative({
+    message: "Aantal kinderen moet een nummer zijn en niet negatief",
+  }),
+  young_child: z.number().nonnegative({
+    message: "Aantal jonge kinderen moet een nummer zijn en niet negatief",
+  }),
+  booking_status: z.number().min(0).max(1),
   notes: z.string().nullable(),
   license_plate: z.string().nullable(),
-  car_status: z.boolean({
-    required_error: "Auto status is vereist",
-    invalid_type_error: "car_status moet een boolean zijn",
-  }),
+  car_status: z.number().min(0).max(1),
   // Kenteken kan wel nullable zijn maar MySQL wilt een boolean waarde in car status tabel, gewoon op 0 zetten.
   camping_spot_id: z
     .number()
@@ -58,3 +46,75 @@ export const bookingSchema = z.object({
 });
 
 export type TBookingSchema = z.infer<typeof bookingSchema>;
+
+export const createAccommodationsSchema = z.object({
+  accommodation_type: z.string().min(1, {
+    message: "Accommodatie type moet minimaal één karakter bevatten",
+  }),
+  description_note: z.string().nullable(),
+  cost: z.number().min(0, { message: "Kosten kunnen niet negatief zijn." }),
+});
+
+export type TCreateAccommodationsSchema = z.infer<
+  typeof createAccommodationsSchema
+>;
+
+export const createCostGuestSchema = z.object({
+  person_type: z
+    .string()
+    .min(1, { message: "Een persoon type moet minimaal één karakter zijn" }),
+  cost: z.number().min(0, { message: "Kosten kunnen niet negatief zijn." }),
+});
+
+export type TCreateCostGuestSchema = z.infer<typeof createCostGuestSchema>;
+
+export const createCampingSpots = z.object({
+  accommodations_id: z.number().min(1, { message: "Id moet minimaal 1 zijn" }),
+  spot_name: z
+    .string()
+    .min(1, { message: "Spot naam moet minimaal 1 karakter lang zijn" }),
+  spot_status: z.number().min(0).max(1),
+  notes: z.string().nullable(),
+});
+
+export type TCreateCampingSpots = z.infer<typeof createCampingSpots>;
+
+export const updateInfoCampingSpots = z.object({
+  camping_spots_id: z.number().min(1, { message: "Id moet minimaal 1 zijn" }),
+  spot_name: z
+    .string()
+    .min(1, { message: "Spot naam moet minimaal 1 karakter bevatten" }),
+  accommodations_id: z.number().min(1),
+  spot_status: z.number().min(0).max(1),
+  notes: z.string().nullable(),
+});
+
+export type TUpdateInfoCampingSpots = z.infer<typeof updateInfoCampingSpots>;
+
+export const updateBookingInfo = z.object({
+  id: z.number().min(1, { message: "Id moet minimaal 1 zijn" }),
+  first_name: z.string().nullable(),
+  last_name: z.string().nullable(),
+  phone: z.string().nullable(),
+  email: z.string().email().nullable(),
+  adult: z
+    .number()
+    .min(0, { message: "Volwasennen aantal moet minstens 0 zijn" }),
+  child: z.number().min(0, { message: "Kind aantal moet minstens 0 zijn" }),
+  young_child: z
+    .number()
+    .min(0, { message: "Jong kind aantal moet minstens 0 zijn" }),
+  cost: z.number().min(0, { message: "Kosten moeten minimaal 0 zijn" }),
+  booking_status: z.number().min(0).max(1),
+  notes: z.string().nullable(),
+  license_plate: z.string().nullable(),
+  car_status: z.number().min(0).max(1),
+  house_number: z.string().nullable(),
+  city: z.string().nullable(),
+  country: z.string().nullable(),
+  streetname: z.string().nullable(),
+  zipcode: z.string().nullable(),
+  camping_spot_id: z.number().min(1, { message: "Id moet minimaal 1 zijn" }),
+});
+
+export type TUpdateBookingInfo = z.infer<typeof updateBookingInfo>;
