@@ -21,4 +21,26 @@
 .main-content {
   grid-area: main;
   background-color: var(--background-color);
+  padding: 2.25rem;
+  gap: 2.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4rem;
+  h1 {
+    margin-right: auto;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: black;
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: black;
+  }
 }
