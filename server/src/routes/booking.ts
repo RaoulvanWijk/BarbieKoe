@@ -37,6 +37,15 @@ router.put("/updateBookingInfo", async (req, res) => {
     zipcode,
     camping_spot_id,
   } = validateResult.data;
+
+  const idcheck = await query(`SELECT COUNT(id) FROM booking WHERE id = ?`, [
+    id,
+  ]);
+  if (idcheck != 1) {
+    res.status(404).send("ID BESTAAT NIET");
+    return;
+  }
+
   await query(
     `
   UPDATE guests
