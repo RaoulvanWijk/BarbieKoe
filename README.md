@@ -9,6 +9,10 @@ How to use the BarbieKoe project
 1. `git clone https://github.com/RaoulvanWijk/BarbieKoe.git`
 2. `npm install`
 3. `npm run tauri dev`
+4. `cd server`
+5. `npm install`
+6. `mklink /J "src/lib/types" "../src/lib/types"` (in admin powershell)
+7. `npm run run`
 
 ### De python app
 
@@ -26,7 +30,6 @@ How to use the BarbieKoe project
 
 [python3](https://www.python.org/downloads/), [openCV](https://pypi.org/project/opencv-python/), [numpy](https://numpy.org/install/)
 
-## File structure
 ```
 - resources (folder for styling, images and fonts)
 - --> styles (folder for styling)
@@ -39,3 +42,4 @@ How to use the BarbieKoe project
 - --> utils (folder for usefull tools that can be used everywhere)
 - src-py (program to optimally utilize the ground of an map)
 ```
+

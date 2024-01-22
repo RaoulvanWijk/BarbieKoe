@@ -1,0 +1,24 @@
+.page-container {
+  display: grid;
+    grid-template-areas:
+        "nav topnav"
+        "nav main";
+    grid-template-columns: 16.5rem 1fr;
+    grid-template-rows: 6.5rem 1fr;
+    height: 100%;
+}
+
+.side-nav {
+  grid-area: nav;
+  background-color: var(--main-text-color);
+}
+
+.top-nav {
+  grid-area: topnav;
+  background-color: var(--heading-color);
+}
+
+.main-content {
+  grid-area: main;
+  background-color: var(--background-color);
+}

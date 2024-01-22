@@ -1,7 +1,9 @@
-import React from 'react'
+import PageLayout from "@/components/Layout/PageLayout";
 
 export default function Dashboard() {
   return (
-    <div>Dashboard</div>
-  )
+    <PageLayout>
+      <div>Dashboard</div>
+    </PageLayout>
+  );
 }
