@@ -1,0 +1,46 @@
+.page-container {
+  display: grid;
+    grid-template-areas:
+        "nav topnav"
+        "nav main";
+    grid-template-columns: 16.5rem 1fr;
+    grid-template-rows: 6.5rem 1fr;
+    height: 100%;
+}
+
+.side-nav {
+  grid-area: nav;
+  background-color: var(--main-text-color);
+}
+
+.top-nav {
+  grid-area: topnav;
+  background-color: var(--heading-color);
+}
+
+.main-content {
+  grid-area: main;
+  background-color: var(--background-color);
+  padding: 2.25rem;
+  gap: 2.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4rem;
+  h1 {
+    margin-right: auto;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: black;
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: black;
+  }
+}
