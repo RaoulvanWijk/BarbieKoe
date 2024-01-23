@@ -21,7 +21,7 @@ def getPlaces(areaNumber, area, family):
     for i in range(availablePlaces):
         placeNumbers.append(
             {
-                "place nummber": i,
+                "place number": i,
                 "occupied": False,
                 "family": family,
             }
