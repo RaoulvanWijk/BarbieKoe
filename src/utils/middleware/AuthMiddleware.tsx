@@ -1,5 +1,5 @@
-import { Navigate, Route, Routes, Outlet, useLocation  } from "react-router-dom";
-import React, {useEffect, useState} from "react";
+import { Navigate, Outlet, useLocation  } from "react-router-dom";
+import {useEffect, useState} from "react";
 
 export const AuthMiddleware = () => {
   const location = useLocation();
