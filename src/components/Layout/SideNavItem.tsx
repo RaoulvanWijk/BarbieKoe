@@ -4,6 +4,9 @@ import home from '../../../resources/images/svg/home.svg'
 import mail from '../../../resources/images/svg/mail.svg'
 import none from '../../../resources/images/svg/none.svg'
 
+import '/resources/styles/components/layout/side-nav-item.scss'
+
+
 type sideNavItemProps = {
   icon: string,
   label: string,
@@ -13,7 +16,7 @@ type sideNavItemProps = {
 export default function SideNavItem(props: sideNavItemProps) {
   let icon: string = ''
 
-  switch(props.icon) {
+  switch (props.icon) {
     case 'home':
       icon = home
       break
@@ -24,9 +27,11 @@ export default function SideNavItem(props: sideNavItemProps) {
       icon = none
   }
   return (
-    <li>
-      <img src={icon} alt="" />
-      <Link to={props.link}>{props.label}</Link>
+    <li className='side-nav-item'>
+      <Link to={props.link}>
+        <img src={icon} alt="" />
+        <span>{props.label}</span>
+      </Link>
     </li>
   )
 }
