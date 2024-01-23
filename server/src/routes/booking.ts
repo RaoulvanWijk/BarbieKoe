@@ -7,60 +7,76 @@ import {
   createCampingSpots,
   updateInfoCampingSpots,
 } from "../types/zodSchemes";
+import { count, countReset } from "console";
 const router = Router();
-
 
 // DELETE BOOKING WERKT ALLEEN MET CASCADING VAN FOREIGN KEYS OP AAN, GEBRUIK HIERVOOR DUS DE NIEUWST VERSIE VAN BARBIEKOE DB.
 router.delete("/delete/:id", async (req, res) => {
-  await query(`
+  await query(
+    `
   DELETE address
   FROM address
   JOIN guests ON address.id = guests.address_id
   JOIN booking ON guests.id = booking.guest_id
   WHERE booking.id = ?;
 
-  `,[req.params.id]);
-  res.status(200).send("Succesvol address en guests verwijderd")
-})
+  `,
+    [req.params.id]
+  );
+  res.status(200).send("Succesvol volledige booking verwijderd");
+});
 
 router.put("/guest-cost", async (req, res) => {
-  const {id, cost} = req.body;
-  if(id <= 0 || cost < 0) {
-    res.status(404).send("Id kan niet 0 of negatief zijn en de kosten mogen niet negatief zijn")
-    return
+  const { id, cost } = req.body;
+  if (id <= 0 || cost < 0) {
+    res
+      .status(404)
+      .send(
+        "Id kan niet 0 of negatief zijn en de kosten mogen niet negatief zijn"
+      );
+    return;
   }
-  await query(`
+  await query(
+    `
   UPDATE cost_guest_sort
   SET
     cost = ?,
     updated_at = NOW()
     WHERE id = ?
-  `, [cost, id]);
-  res.status(200).send("Succesvol een gast soort verwijderd")
-})
+  `,
+    [cost, id]
+  );
+  res.status(200).send("Succesvol een gast soort verwijderd");
+});
 
 router.get("/guest-cost", async (req, res) => {
-  const result = await query(` SELECT * FROM cost_guest_sort`)
-  res.status(200).json(result)
-})
+  const result = await query(
+    ` SELECT id, person_type, cost FROM cost_guest_sort`
+  );
+  res.status(200).json(result);
+});
 
-router.delete("/delete-accommodation/:id", async (req, res) =>{
-  await query(`
+router.delete("/delete-accommodation/:id", async (req, res) => {
+  await query(
+    `
   DELETE FROM accommodations
   WHERE id = ?
-  `, [req.params.id]);
-  res.status(200).send("Succesvol een accommodatie verwijderd")
-})
+  `,
+    [req.params.id]
+  );
+  res.status(200).send("Succesvol een accommodatie verwijderd");
+});
 
 router.delete("/delete-camping-spot/:id", async (req, res) => {
-  await query(`
+  await query(
+    `
   DELETE FROM camping_spots
   WHERE id = ?
-  `, [req.params.id]);
-  res.status(200).send("Succesvol een camping spot verwijderd")
-})
-
-
+  `,
+    [req.params.id]
+  );
+  res.status(200).send("Succesvol een camping spot verwijderd");
+});
 
 router.put("/update-info/:id", async (req, res) => {
   const validateResult = bookingSchema.safeParse(req.body);
@@ -90,45 +106,46 @@ router.put("/update-info/:id", async (req, res) => {
     departure,
   } = validateResult.data;
 
-  const cost = req.body;
+  const cost = req.body.cost;
   if (cost < 0) {
-    res.status(400).send("Let op, kosten kunnen niet negatief zijn")
+    res.status(400).send("Kosten kunnen niet negatief zijn");
     return;
   }
 
   await query(
     `
-  UPDATE guests
-  INNER JOIN booking ON guests.id = booking.guest_id
-  INNER JOIN camping_spots ON booking.camping_spot_id = camping_spots.id
-  INNER JOIN cars ON booking.id = cars.booking_id
-  INNER JOIN address ON guests.address_id = address.id
-  SET 
-    first_name = ?,
-    last_name = ?,
-    phone = ?,
-    email = ?,
-    guests.updated_at = NOW(),
-    booking.adult = ?,
-    booking.child = ?,
-    booking.young_child = ?,
-    booking.cost = ?,
-    booking.booking_status = ?,
-    booking.notes = ?,
-    booking.arrival = ?,
-    booking.departure = ?,
-    booking.updated_at = NOW(),
-    cars.license_plate = ?,
-    cars.car_status = ?,
-    address.house_number = ?,
-    address.city = ?,
-    address.country = ?,
-    address.streetname = ?,
-    address.zipcode = ?,
-    address.updated_at = NOW(),
-    booking.camping_spot_id = ?
-  WHERE booking.id = ?
-  `,
+    UPDATE guests
+    INNER JOIN booking ON guests.id = booking.guest_id
+    INNER JOIN camping_spots ON booking.camping_spot_id = camping_spots.id
+    INNER JOIN cars ON booking.id = cars.booking_id
+    INNER JOIN address ON guests.address_id = address.id
+    
+    SET 
+      first_name = ?,
+      last_name = ?,
+      phone = ?,
+      email = ?,
+      guests.updated_at = NOW(),
+      booking.adult = ?,
+      booking.child = ?,
+      booking.young_child = ?,
+      booking.cost = ?,
+      booking.booking_status = ?,
+      booking.notes = ?,
+      booking.arrival = ?,
+      booking.departure = ?,
+      booking.updated_at = NOW(),
+      cars.license_plate = ?,
+      cars.car_status = ?,
+      address.house_number = ?,
+      address.city = ?,
+      address.country = ?,
+      address.streetname = ?,
+      address.zipcode = ?,
+      address.updated_at = NOW(),
+      booking.camping_spot_id = ?
+    WHERE booking.id = ?
+    `,
     [
       first_name,
       last_name,
@@ -164,9 +181,9 @@ router.get("/all", async (req, res) => {
       INNER JOIN camping_spots ON booking.camping_spot_id = camping_spots.id
       INNER JOIN cars ON booking.id = cars.booking_id
       INNER JOIN address ON guests.address_id = address.id
-      `)
-    res.status(200).json(result)
-})
+      `);
+  res.status(200).json(result);
+});
 
 router.get("/info-today", async (req, res) => {
   const result = await query(`
@@ -253,7 +270,7 @@ router.put("/update-status", async (req, res) => {
   res.status(400).send("Ongeldig id");
 });
 
-router.put("car-status", async (req, res) => {
+router.put("/car-status", async (req, res) => {
   const { id, car_status } = req.body;
   if ((car_status === 1 || car_status === 0) && id > 0) {
     await query(
@@ -262,7 +279,7 @@ router.put("car-status", async (req, res) => {
     );
     res.status(200).send("Car status geüpdatet");
   } else {
-    res.status(400).send("Kon car tabel niet aanpassen, i.v.m. verkeerde data");
+    res.status(400).send("Fout in verkregen informatie");
   }
 });
 
@@ -314,9 +331,9 @@ router.post("/create", async (req, res) => {
   arrivalDate.setHours(0, 0, 0, 0);
   departureDate.setHours(0, 0, 0, 0);
   const timeDifference = departureDate.getTime() - arrivalDate.getTime();
-  console.log(timeDifference)
   const daysDifference = Math.round(timeDifference / (1000 * 60 * 60 * 24));
-  const cost = ((adult * 20 + child * 10 + young_child * 5 + 20 ) * daysDifference);
+  const cost =
+    (adult * 20 + child * 10 + young_child * 5 + 20) * daysDifference;
 
   await query(
     `

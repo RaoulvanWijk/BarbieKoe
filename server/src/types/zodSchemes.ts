@@ -49,7 +49,7 @@ export type TBookingSchema = z.infer<typeof bookingSchema>;
 
 export const createAccommodationsSchema = z.object({
   accommodation_type: z.string().min(1, {
-    message: "Accommodatie type moet minimaal één karakter bevatten",
+    message: "Accommodatie type moet minimaal 1 karakter bevatten",
   }),
   description_note: z.string().nullable(),
   cost: z.number().min(0, { message: "Kosten kunnen niet negatief zijn." }),
@@ -62,7 +62,7 @@ export type TCreateAccommodationsSchema = z.infer<
 export const createCostGuestSchema = z.object({
   person_type: z
     .string()
-    .min(1, { message: "Een persoon type moet minimaal één karakter zijn" }),
+    .min(1, { message: "Persoon minimaal 1 karakter zijn" }),
   cost: z.number().min(0, { message: "Kosten kunnen niet negatief zijn." }),
 });
 
@@ -73,7 +73,10 @@ export const createCampingSpots = z.object({
   spot_name: z
     .string()
     .min(1, { message: "Spot naam moet minimaal 1 karakter lang zijn" }),
-  spot_status: z.number().min(0).max(1),
+  spot_status: z
+    .number()
+    .min(0, { message: "Status mag minimaal 0 zijn" })
+    .max(1, { message: "Status mag maximaal 1 zijn" }),
   notes: z.string().nullable(),
 });
 
