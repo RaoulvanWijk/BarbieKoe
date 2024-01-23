@@ -28,7 +28,11 @@ How to use the BarbieKoe project
 
 ### map generator
 
-[python3](https://www.python.org/downloads/), [openCV](https://pypi.org/project/opencv-python/), [numpy](https://numpy.org/install/)
+[python3](https://www.python.org/downloads/),
+[openCV](https://pypi.org/project/opencv-python/),
+[numpy](https://numpy.org/install/)
+
+## File structure
 
 ```
 - resources (folder for styling, images and fonts)
