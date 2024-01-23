@@ -7,35 +7,35 @@ import { useData } from "@/lib/hooks/fetch";
 
 export default function Dashboard() {
     // get arrivals data
-    const arrivalsData: [] = useData("/api/booking/getArrivalsToday");
+    const arrivalsData: [] = useData("/api/booking/info-arrivals");
+    const currentAmountOnCamping: [] = useData("/api/booking/info-today");
     // get camping spots data
-    const campingSpotsData: any = useData("/api/booking/getInfoCampingSpots");
-    const bookkeepingData: any = useData("/api/booking/getBookkeeping");
+    const campingSpotsData: any = useData("/api/booking/info-camping-spot");
+    const bookkeepingData: any = useData("/api/booking/bookkeeping");
     const getAvailableSpotsData: any = useData(
-        "/api/booking/getAvailableSpots"
+        "/api/booking/info-available-spot"
     );
-
-    console.log(campingSpotsData?.length);
 
     // get bookkeeping data
     const [geld, setGeld] = useState(0);
-    const [arrivals, setArrivals] = useState<number | undefined>(undefined);
 
     useEffect(() => {
         let geld: number = 0;
         for (let i = 0; i < bookkeepingData?.length; i++) {
             geld += bookkeepingData[i]?.price ?? 0;
         }
+        console.log(geld);
         setGeld(geld);
-        setArrivals(arrivalsData?.length ?? 0);
     }, []);
     return (
         <PageLayout pageTitle="Dashboard">
             <div className="container flex-col">
                 <div className="container">
-                    <InformationBlok name="Aankomsten vandaag">
+                    <InformationBlok name="Aankomsten">
                         <p>
-                            {arrivals === undefined ? "Loading..." : arrivals}
+                            {arrivalsData?.length === undefined
+                                ? "Loading..."
+                                : arrivalsData?.length}
                         </p>
                     </InformationBlok>
                     <InformationBlok name="Plekken over / totaal plekken">
@@ -49,8 +49,12 @@ export default function Dashboard() {
                     <InformationBlok name="Inkomsten">
                         <p>€{geld}</p>
                     </InformationBlok>
-                    <InformationBlok name="Anderen ingelogd">
-                        <p>0</p>
+                    <InformationBlok name="Mensen op de camping">
+                        <p>
+                            {currentAmountOnCamping?.length === undefined
+                                ? "Loading..."
+                                : currentAmountOnCamping?.length}
+                        </p>
                     </InformationBlok>
                 </div>
                 <div className="container">
