@@ -1,0 +1,14 @@
+.repair-blok {
+    display: flex;
+    justify-content: space-between;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-color: none;
+    border-bottom-color: gray;
+    padding: 0.5rem 0rem;
+}
+
+.repair-blok-left {
+    display: flex;
+    gap: 2.25rem;
+}
