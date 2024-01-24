@@ -1,9 +1,10 @@
 import PageLayout from "@/components/Layout/PageLayout"
 import { useData } from "@/lib/hooks/fetch";
 import { useParams } from "react-router-dom"
+import { ReservationFetch } from "@/lib/types/database";
 
 import LageItem from "@/components/Reservation/LageItem";
-import { ReservationFetch } from "@/lib/types/database";
+import Modal from "@/components/Layout/Modal";
 
 
 export default function Reservation() {
@@ -13,6 +14,13 @@ export default function Reservation() {
   return (
     <PageLayout pageTitle={`Reservering van ${reservation?.[0].first_name} ${reservation?.[0].last_name}`}>
       <LageItem reservation={reservation?.[0]} />
+
+      <div>
+        <Modal title="Weet u zeker dat u deze reservering wilt annuleren?">
+          <>
+          </>
+        </Modal>
+      </div>
     </PageLayout>
 
   )
