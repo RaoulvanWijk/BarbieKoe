@@ -175,7 +175,7 @@ router.put("/update-info/:id", async (req, res) => {
 
 router.get("/find/:id", async (req, res) => {
   const result = await query(`
-  SELECT booking.id, first_name, last_name, phone, email, booking.arrival, booking.departure, booking.adult, booking.child, booking.young_child, booking.cost, booking_status, booking.notes, cars.license_plate, cars.car_status, address.house_number, address.city, address.country, address.streetname, address.zipcode, booking.camping_spot_id, camping_spots.spot_name
+  SELECT booking.id, first_name, last_name, phone, email, booking.arrival, booking.departure, booking.adult, booking.child, booking.young_child, booking.cost, booking_status, booking.notes, cars.license_plate, cars.car_status, address.house_number, address.city, address.country, address.streetname, address.zipcode, booking.camping_spot_id, camping_spots.spot_name, booking.created_at
     FROM guests
       INNER JOIN booking ON guests.id = booking.guest_id
       INNER JOIN camping_spots ON booking.camping_spot_id = camping_spots.id
