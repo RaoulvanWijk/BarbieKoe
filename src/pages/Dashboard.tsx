@@ -31,14 +31,17 @@ export default function Dashboard() {
         <PageLayout pageTitle="Dashboard">
             <div className="container flex-col">
                 <div className="container">
-                    <InformationBlok name="Aankomsten">
+                    <InformationBlok name="Aankomsten" route="/">
                         <p>
                             {arrivalsData?.length === undefined
                                 ? "Loading..."
                                 : arrivalsData?.length}
                         </p>
                     </InformationBlok>
-                    <InformationBlok name="Plekken over / totaal plekken">
+                    <InformationBlok
+                        name="Plekken over / totaal plekken"
+                        route="/"
+                    >
                         <p>
                             {getAvailableSpotsData?.length == undefined ||
                             campingSpotsData?.length == undefined
@@ -46,10 +49,10 @@ export default function Dashboard() {
                                 : `${getAvailableSpotsData?.length} / ${campingSpotsData?.length}`}
                         </p>
                     </InformationBlok>
-                    <InformationBlok name="Inkomsten">
+                    <InformationBlok name="Inkomsten" route="/">
                         <p>€{geld}</p>
                     </InformationBlok>
-                    <InformationBlok name="Mensen op de camping">
+                    <InformationBlok name="Mensen op de camping" route="/">
                         <p>
                             {currentAmountOnCamping?.length === undefined
                                 ? "Loading..."
@@ -58,7 +61,7 @@ export default function Dashboard() {
                     </InformationBlok>
                 </div>
                 <div className="container">
-                    <InformationBlok name="Onderhoud">
+                    <InformationBlok name="Onderhoud" route="/plaatsen">
                         <RepairBlok
                             type="Elektriciteit"
                             description="Geen elektriciteit"
@@ -80,7 +83,7 @@ export default function Dashboard() {
                     </InformationBlok>
                 </div>
                 <div className="container">
-                    <InformationBlok name="Berichten">
+                    <InformationBlok name="Berichten" route="/">
                         <p>0</p>
                     </InformationBlok>
                 </div>
