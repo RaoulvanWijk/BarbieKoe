@@ -240,7 +240,7 @@ router.get("/info-arrivals", async (req, res) => {
   
   JOIN camping_spots ON booking.camping_spot_id = camping_spots.id
   
-  WHERE DATE(booking.arrival) = CURDATE();`);
+  WHERE DATE(booking.arrival) = CURDATE() AND booking.booking_status = 0;`);
   res.status(200).json(result);
 });
 
