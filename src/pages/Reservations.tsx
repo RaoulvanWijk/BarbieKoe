@@ -119,6 +119,13 @@ export default function Reservations() {
           </div>
         </InformationBlok>
         {
+          !reservations && (
+            Array.from(Array(10).keys()).map((i) => (
+              SmallItem({ reservation: {} as ReservationFetch })
+            ))
+          )
+        }
+        {
           sortedReservations?.length == 0 && (
             <InformationBlok moreInfoProps={{ dontUse: true }}>
               <p>Geen reserveringen gevonden</p>
