@@ -20,10 +20,6 @@ export const AuthMiddleware = () => {
     fetchUser();  
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   if(!user || user.error && location.pathname === "/") {
     return <Outlet />;
   } else if (user && location.pathname === "/") {
