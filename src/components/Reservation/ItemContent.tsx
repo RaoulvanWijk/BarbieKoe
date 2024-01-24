@@ -1,5 +1,3 @@
-import React from "react";
-
 type ItemContentProps = {
   title: string;
   content: string|number|undefined;

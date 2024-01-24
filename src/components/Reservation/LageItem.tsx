@@ -6,7 +6,7 @@ type LageItemProps = {
   reservation: ReservationFetch | undefined;
 };
 
-export default function LageItem(props: any) {
+export default function LageItem(props: LageItemProps) {
   const { reservation } = props;
   return (
     <div
@@ -23,8 +23,8 @@ export default function LageItem(props: any) {
       </div>
       <div className="content-container">
         <dl className="content">
-          <ItemContent title="Aankomst datum" content={new Date(reservation?.arrival).toLocaleString("nl-NL")}/>
-          <ItemContent title="Vertrek datum" content={new Date(reservation?.departure).toLocaleString("nl-NL")}/>
+          <ItemContent title="Aankomst datum" content={reservation?.arrival ? new Date(reservation?.arrival).toLocaleString("nl-NL") : undefined}/>
+          <ItemContent title="Vertrek datum" content={reservation?.departure ? new Date(reservation?.departure).toLocaleString("nl-NL"): undefined}/>
           <ItemContent title="Kosten" content={reservation?.cost}/>
           <ItemContent title="Aantal volwassenen" content={reservation?.adult}/>
           <ItemContent title="Aantal kinderen" content={reservation?.child}/>
