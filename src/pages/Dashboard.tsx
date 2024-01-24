@@ -7,8 +7,8 @@ import { useData } from "@/lib/hooks/fetch";
 
 export default function Dashboard() {
     // get arrivals data
-    const arrivalsData: [] = useData("/api/booking/info-arrivals");
-    const currentAmountOnCamping: [] = useData("/api/booking/info-today");
+    const arrivalsData: [] = useData<any>("/api/booking/info-arrivals");
+    const currentAmountOnCamping: [] = useData<any>("/api/booking/info-today");
     // get camping spots data
     const campingSpotsData: any = useData("/api/booking/info-camping-spot");
     const bookkeepingData: any = useData("/api/booking/bookkeeping");
