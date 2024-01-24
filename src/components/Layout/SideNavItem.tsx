@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from "react-router-dom";
 import home from '../../../resources/images/svg/home.svg'
 import mail from '../../../resources/images/svg/mail.svg'
