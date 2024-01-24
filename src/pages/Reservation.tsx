@@ -11,7 +11,7 @@ export default function Reservation() {
   console.log(id);
   const reservation = useData<ReservationFetch[]>(`/api/booking/find/${id}`)
   return (
-    <PageLayout>
+    <PageLayout pageTitle={`Reservering van ${reservation?.[0].first_name} ${reservation?.[0].last_name}`}>
       <LageItem reservation={reservation?.[0]} />
     </PageLayout>
 
