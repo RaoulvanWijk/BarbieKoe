@@ -25,5 +25,12 @@
   gap: 2.25rem;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow-y: scroll;
+   > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+  }
 }
 

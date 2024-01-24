@@ -1,4 +1,3 @@
-import React from "react";
 import "/resources/styles/components/dashboard/repair-blok.scss";
 
 type RepairBlokProps = {
