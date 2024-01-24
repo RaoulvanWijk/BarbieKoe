@@ -49,3 +49,29 @@ export type ResultSetHeader = {
   changedRows: number,
 }
 
+export type ReservationFetch = {
+    id: number;
+    first_name: string;
+    last_name: string;
+    phone: string;
+    email: string;
+    arrival: string;
+    departure: string;
+    adult: number;
+    child: number;
+    young_child: number;
+    cost: number;
+    booking_status: number;
+    notes: string;
+    license_plate: string;
+    car_status: string;
+    house_number: number;
+    city: string;
+    country: string;
+    streetname: string;
+    zipcode: string;
+    camping_spot_id: number;
+    spot_name: string;
+    created_at: string;
+  };
+

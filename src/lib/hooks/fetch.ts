@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-
-export function useData(url: string): any {
-  const [data, setData] = useState(null)
+``
+export function useData<T>(url: string): T | undefined {
+  const [data, setData] = useState<T>()
   useEffect(() => {
     let ignore = false
     fetch(url)

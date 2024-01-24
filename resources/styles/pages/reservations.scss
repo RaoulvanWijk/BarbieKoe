@@ -1,0 +1,43 @@
+.reservation-header {
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+
+  p {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--main-text-color);
+    margin-right: auto;
+  }
+
+  input {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 2px solid rgb(229 231 235);
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--main-text-color);
+    outline: none;
+    transition: all 0.2s ease-in-out;
+
+    &:focus {
+      border-color: var(--primary-color);
+    }
+  }
+
+  select {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 2px solid rgb(229 231 235);
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--main-text-color);
+    outline: none;
+    transition: all 0.2s ease-in-out;
+
+    &:focus {
+      border-color: var(--primary-color);
+    }
+  }
+}

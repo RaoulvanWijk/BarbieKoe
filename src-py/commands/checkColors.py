@@ -8,12 +8,15 @@ def checkColor(pointA, pointB, possition, img, direction):
     green = np.array([140, 241, 141])
     black = np.array([0, 0, 0])
     blue = np.array([255, 0, 0])
-    # set the steps
+    # set the steps (-1 LEFT or 1 RIGHT)
     step = 1
     if pointB < pointA:
         step = -1
+
+    # check the colors
     if direction == "horizontal":
         for i in range(pointA, pointB, step):
+            # get the color of the point
             colorInImage = img[possition, i]
             if (
                 np.array_equal(colorInImage, brown)
@@ -41,3 +44,21 @@ def checkColor(pointA, pointB, possition, img, direction):
                 continue
         return False
     return False
+
+
+# check the colors of the points
+def checkPointColor(corners, img):
+    orange = np.array([77, 145, 255])
+    blue = np.array([255, 182, 56])
+
+    validPoints = []
+
+    for corner in corners:
+        x, y = corner.ravel()
+        placeColor = img[y, x]
+        if np.array_equal(placeColor, orange) or np.array_equal(placeColor, blue):
+            continue
+        else:
+            validPoints.append([x, y])
+    validPoints.sort()
+    return validPoints

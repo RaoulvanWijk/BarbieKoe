@@ -1,0 +1,43 @@
+.side-nav-item {
+    color: white;
+    font-weight: 500;
+
+    a {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 2rem;
+        transition: all 0.2s ease-in-out;
+        
+        img {
+            width: 1.75rem; 
+            height: 1.75rem;
+        }
+        span {
+            position: relative;
+        }
+        &:hover span {
+            color: var(--active-color);
+
+            &::after {
+                transform: scaleX(1);
+                transform: rotateY(0deg);
+                // transform-origin: bottom left;
+            }
+        }
+
+        span::after {
+            content: '';
+            position: absolute;
+            width: 8rem;
+            transform: scaleX(0);
+            transform: rotateY(90deg);
+            height: 2px;
+            bottom: -.3rem;
+            left: -1rem;
+            background-color: var(--active-color);
+            // transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+    }
+}

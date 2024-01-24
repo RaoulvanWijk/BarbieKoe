@@ -23,9 +23,49 @@ router.get("/validate", async (req, res) => {
   if (!token) return res.status(401).send({ error: "No token provided" });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as Secret) as JwtPayload;
-    const resu = (await query("CALL sp_get_session(?)", [token])) as [[{token: string}], ResultSetHeader];
+    const resu = (await query("CALL sp_get_session(?)", [token])) as [[{ token: string }], ResultSetHeader];
     if (resu[0][0].token !== token) return res.status(401).send({ error: "Token is invalid" });
     return res.status(200).send({ token });
+  } catch (error: any) {
+    return res.status(500).send({ error: error.message });
+  }
+}
+);
+
+router.get("/logout", async (req, res) => {
+  const token = req.cookies?.token ?? '';
+  if (!token) {
+    return res.status(200).setHeader(
+      "Set-Cookie",
+      `token=; HttpOnly; Path=/; Max-Age=0`
+    ).redirect("/");
+  }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as Secret) as JwtPayload;
+    const resu = (await query("CALL sp_get_session(?)", [token])) as [[{ token: string }], ResultSetHeader];
+    if (resu[0][0].token !== token) return res.status(401).send({ error: "Token is invalid" });
+    const resu2 = (await query("CALL sp_delete_session(?)", [token])) as [ResultSetHeader];
+    return res.status(200).setHeader(
+      "Set-Cookie",
+      `token=; HttpOnly; Path=/; Max-Age=0`
+    ).redirect("/");
+  } catch (error: any) {
+    return res.status(200).setHeader(
+      "Set-Cookie",
+      `token=; HttpOnly; Path=/; Max-Age=0`
+    ).redirect("/");
+  }
+}
+);
+
+router.get("/me", async (req, res) => {
+  const token = req.cookies?.token ?? '';
+  if (!token) return res.status(401).send({ error: "No token provided" });
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as Secret) as JwtPayload;
+    const resu = (await query("CALL sp_get_user_with_session(?)", [token])) as [[{ token: string }], ResultSetHeader];
+    if (resu[0][0].token !== token) return res.status(401).send({ error: "Token is invalid" });
+    return res.status(200).send(decoded);
   } catch (error: any) {
     return res.status(500).send({ error: error.message });
   }
@@ -71,8 +111,8 @@ router.post("/login", async (req, res) => {
   });
 
   // console.log(token);
-  
-  const resu = (await query("CALL sp_create_session(?, ?)", [ user_id, token ])) as [ResultSetHeader];
+
+  const resu = (await query("CALL sp_create_session(?, ?)", [user_id, token])) as [ResultSetHeader];
 
   res.status(200).setHeader(
     "Set-Cookie",

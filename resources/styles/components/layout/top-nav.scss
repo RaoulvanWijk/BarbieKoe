@@ -1,0 +1,32 @@
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2.25rem;
+
+}
+
+.prim-btn {
+    display: flex;
+    background-color: var(--cta-btn-color);
+    font-weight: 600;
+    font-size: 1.5rem;
+    padding: 0 0.8rem;
+    height: 3rem;
+    border-radius: 1rem;
+    line-height: 0;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+        opacity: 0.8;
+    }
+    &::before {
+        content: '+';
+        display: inline-block;  	
+        font-size: 2.8rem;
+        position: relative;
+        top: -0.23rem;
+
+    }
+}
