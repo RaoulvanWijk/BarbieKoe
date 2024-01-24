@@ -173,14 +173,28 @@ router.put("/update-info/:id", async (req, res) => {
   res.status(200).send("Booking info geüpdatet");
 });
 
-router.get("/all", async (req, res) => {
+router.get("/find/:id", async (req, res) => {
   const result = await query(`
-  SELECT booking.id, first_name, last_name, phone, email, booking.arrival, booking.departure, booking.adult, booking.child, booking.young_child, booking.cost, booking_status, booking.notes, cars.license_plate, cars.car_status, address.house_number, address.city, address.country, address.streetname, address.zipcode, booking.camping_spot_id, camping_spots.spot_name
+  SELECT booking.id, first_name, last_name, phone, email, booking.arrival, booking.departure, booking.adult, booking.child, booking.young_child, booking.cost, booking_status, booking.notes, cars.license_plate, cars.car_status, address.house_number, address.city, address.country, address.streetname, address.zipcode, booking.camping_spot_id, camping_spots.spot_name, booking.created_at
     FROM guests
       INNER JOIN booking ON guests.id = booking.guest_id
       INNER JOIN camping_spots ON booking.camping_spot_id = camping_spots.id
       INNER JOIN cars ON booking.id = cars.booking_id
       INNER JOIN address ON guests.address_id = address.id
+    WHERE booking.id = ?
+  `, [req.params.id]);
+  res.status(200).json(result)
+})
+
+router.get("/all", async (req, res) => {
+  const result = await query(`
+  SELECT booking.id, first_name, last_name, phone, email, booking.arrival, booking.departure, booking.adult, booking.child, booking.young_child, booking.cost, booking_status, booking.notes, cars.license_plate, cars.car_status, address.house_number, address.city, address.country, address.streetname, address.zipcode, booking.camping_spot_id, camping_spots.spot_name, booking.created_at
+    FROM guests
+      INNER JOIN booking ON guests.id = booking.guest_id
+      INNER JOIN camping_spots ON booking.camping_spot_id = camping_spots.id
+      INNER JOIN cars ON booking.id = cars.booking_id
+      INNER JOIN address ON guests.address_id = address.id
+	ORDER BY booking.created_at DESC
       `);
   res.status(200).json(result);
 });
@@ -240,7 +254,7 @@ router.get("/info-arrivals", async (req, res) => {
   
   JOIN camping_spots ON booking.camping_spot_id = camping_spots.id
   
-  WHERE DATE(booking.arrival) = CURDATE();`);
+  WHERE DATE(booking.arrival) = CURDATE() AND booking.booking_status = 0;`);
   res.status(200).json(result);
 });
 
@@ -250,9 +264,9 @@ router.get("/info-available-spot", async (req, res) => {
 
   FROM camping_spots
   
-  LEFT JOIN booking ON camping_spots.id = booking.camping_spot_id AND (booking.booking_status = 0 OR booking.id IS NULL)
+  LEFT JOIN booking ON camping_spots.id = booking.camping_spot_id 
   
-  WHERE (booking.arrival IS NULL OR DATE(booking.arrival) > CURDATE()) AND camping_spots.spot_status = 1
+  WHERE (booking.arrival IS NULL OR DATE(booking.arrival) > CURDATE()) AND camping_spots.spot_status = 1 AND (booking.booking_status = 0 OR booking.id IS NULL)
   
   GROUP BY camping_spots.id;`);
   res.status(200).json(result);
