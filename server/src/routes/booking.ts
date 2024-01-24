@@ -181,8 +181,9 @@ router.get("/find/:id", async (req, res) => {
       INNER JOIN camping_spots ON booking.camping_spot_id = camping_spots.id
       INNER JOIN cars ON booking.id = cars.booking_id
       INNER JOIN address ON guests.address_id = address.id
-    WHERE id = ?
+    WHERE booking.id = ?
   `, [req.params.id]);
+  res.status(200).json(result)
 })
 
 router.get("/all", async (req, res) => {
