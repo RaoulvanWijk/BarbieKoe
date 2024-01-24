@@ -10,17 +10,14 @@ type PageLayoutProps = {
   pageTitle?: string;
   children: React.ReactNode;
 };
-export default function PageLayout(
-  props: PageLayoutProps
-) {
-
+export default function PageLayout(props: PageLayoutProps) {
   return (
     <div className="page-container">
       <Sidenav />
       <TopNav />
       <PageContainer>
         <PageHeader pageTitle={props.pageTitle} />
-        {props.children}
+        <div>{props.children}</div>
       </PageContainer>
     </div>
   );
