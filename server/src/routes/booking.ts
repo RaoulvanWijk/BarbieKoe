@@ -250,9 +250,9 @@ router.get("/info-available-spot", async (req, res) => {
 
   FROM camping_spots
   
-  LEFT JOIN booking ON camping_spots.id = booking.camping_spot_id AND (booking.booking_status = 0 OR booking.id IS NULL)
+  LEFT JOIN booking ON camping_spots.id = booking.camping_spot_id 
   
-  WHERE (booking.arrival IS NULL OR DATE(booking.arrival) > CURDATE()) AND camping_spots.spot_status = 1
+  WHERE (booking.arrival IS NULL OR DATE(booking.arrival) > CURDATE()) AND camping_spots.spot_status = 1 AND (booking.booking_status = 0 OR booking.id IS NULL)
   
   GROUP BY camping_spots.id;`);
   res.status(200).json(result);
