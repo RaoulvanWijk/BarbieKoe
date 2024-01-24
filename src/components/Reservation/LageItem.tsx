@@ -30,7 +30,7 @@ export default function LageItem(props: any) {
           <ItemContent title="Aantal kinderen" content={reservation?.child}/>
           <ItemContent title="Aantal jonge kinderen" content={reservation?.young_child}/>
           <ItemContent title="Status" content={reservation?.booking_status}/>
-          <ItemContent title="Notities" content={reservation?.notes}/>
+          <ItemContent title="Notities" content={reservation?.notes === undefined ? undefined : "Geen notities"}/>
           <ItemContent title="Kenteken" content={reservation?.license_plate}/>
           <ItemContent title="Auto status" content={reservation?.car_status}/>
           <ItemContent title="Straat" content={reservation?.house_number}/>
