@@ -9,18 +9,29 @@ type SmallItemProps = {
 export default function SmallItem(props: SmallItemProps) {
   const { reservation } = props;
   console.log(reservation.id);
-  
+
   return (
-    <Link to={`/reservations/${reservation.id}`}
+    <Link
+      to={`/reservations/${reservation.id}`}
       key={reservation.id}
       className="reservation-item"
     >
       <div className="item-header">
         <h3 className="title">
-          {reservation.first_name} {reservation.last_name}
+          {
+            reservation?.first_name !== undefined ? (
+              reservation?.first_name + " " + reservation?.last_name
+            ) : (
+              <hr className="h-4 w-16 animate-pulse outline-none border-none bg-gray-300" />
+            )
+          }
         </h3>
         <p className="sub-title">
-          {reservation.email}
+          {reservation?.email !== undefined ? (
+            reservation?.email
+          ) : (
+            <hr className="h-4 w-16 animate-pulse outline-none border-none bg-gray-300" />
+          )}
         </p>
       </div>
       <div className="content-container">
@@ -37,7 +48,8 @@ export default function SmallItem(props: SmallItemProps) {
           <ItemContent
             title="Status"
             content={
-              reservation.booking_status == 0 ? "Niet ingecheckt" : "Ingecheckt"
+              reservation.booking_status === undefined ? undefined :
+              (reservation.booking_status == 0 ? "Niet ingecheckt" : "Ingecheckt")
             }
           />
         </dl>
