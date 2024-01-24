@@ -6,7 +6,7 @@ export const AuthMiddleware = () => {
 
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-
+  loading;
   useEffect(() => {
     setLoading(true);
     const fetchUser = async () => {

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 
+import React from "react";
 import "/resources/styles/components/layout/modal.scss";
 
 type ModalProps = {
@@ -8,7 +8,7 @@ type ModalProps = {
 };
 
 export default function Modal(props: ModalProps) {
-  const [isOpen, setIsOpen] = useState(false);
+
   const modal = document.querySelector(".modal") as HTMLDialogElement;
   // modal?.close();
   return (

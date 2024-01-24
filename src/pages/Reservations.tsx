@@ -120,7 +120,7 @@ export default function Reservations() {
         </InformationBlok>
         {
           !reservations && (
-            Array.from(Array(10).keys()).map((i) => (
+            Array.from(Array(10).keys()).map(() => (
               SmallItem({ reservation: {} as ReservationFetch })
             ))
           )
