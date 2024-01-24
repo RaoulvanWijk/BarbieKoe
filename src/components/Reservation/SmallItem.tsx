@@ -1,6 +1,7 @@
 import { ReservationFetch } from "@/lib/types/database";
 import ItemContent from "./ItemContent";
 import "/resources/styles/components/reservation/item.scss";
+import { Link } from "react-router-dom";
 
 type SmallItemProps = {
   reservation: ReservationFetch;
@@ -10,7 +11,7 @@ export default function SmallItem(props: SmallItemProps) {
   console.log(reservation.id);
   
   return (
-    <div
+    <Link to={`/reservations/${reservation.id}`}
       key={reservation.id}
       className="reservation-item"
     >
@@ -41,6 +42,6 @@ export default function SmallItem(props: SmallItemProps) {
           />
         </dl>
       </div>
-    </div>
+    </Link>
   );
 }
