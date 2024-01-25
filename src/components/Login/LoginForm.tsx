@@ -25,7 +25,7 @@ export default function LoginForm(loginFormProps: LoginFormProps) {
 
   const onSubmit = async (data: TLoginSchema) => {
     console.log(data);
-    const response = await fetch("/api/auth/login", {
+    const response = await fetch("https://admin.barbiekoe.nl/api/auth/login", {
       method: "POST",
       body: JSON.stringify({
         user_id: loginFormProps.selectedUser.id,

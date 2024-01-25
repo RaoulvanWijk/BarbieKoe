@@ -18,7 +18,7 @@ export default function Login() {
   };
 
   const [loginActive, setLoginActive] = useState<boolean>(false);
-  const users = useData("/api/auth/users") as User[];
+  const users = useData("https://admin.barbiekoe.nl/api/auth/users") as User[];
   const [selectedUser, setSelectedUser] = useState<User>(tempUser);
   
   if(!users) return <div>Loading...</div>;
