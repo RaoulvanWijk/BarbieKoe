@@ -33,7 +33,6 @@ export default function LoginForm(loginFormProps: LoginFormProps) {
       }),
       headers: {
         "Content-Type": "application/json",
-        mode: "no-cors",
       },
     });
     console.log(response);

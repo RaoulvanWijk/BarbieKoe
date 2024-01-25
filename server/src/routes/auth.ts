@@ -116,7 +116,7 @@ router.post("/login", async (req, res) => {
 
   res.status(200).setHeader(
     "Set-Cookie",
-    `token=${token}; HttpOnly; Path=/; Max-Age=172800`
+    `token=${token}; HttpOnly; Path=/; Max-Age=172800 Domain=.barbiekoe.nl`
   ).send({ token });
 });
 
