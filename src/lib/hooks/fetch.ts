@@ -9,7 +9,7 @@ export function useData<T>(url: string): T | undefined {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                mode: "no-cors",
+                "mode": "no-cors",
             },
         })
             .then((res) => res.json())
