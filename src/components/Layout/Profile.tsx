@@ -4,7 +4,8 @@ import "/resources/styles/components/layout/profile.scss"
 import { SafeUser } from "@/lib/types/database";
 
 export default function Profile() {
-    const user = useData<SafeUser>('/api/auth/me');
+    const cookies = document.cookie.split(";").map((cookie) => cookie.split("="));
+    const user = useData<SafeUser>('/api/auth/me/'+ cookies[0][1]);
     const [isDropdownActive, setIsDropdownActive] = useState(false); // Add state for dropdown activation
     const ref = useRef<any>(null);
 
