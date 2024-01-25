@@ -54,9 +54,9 @@ export default function Dashboard() {
                     </InformationBlok>
                     <InformationBlok name="Mensen op de camping" route="/">
                         <p>
-                            {currentAmountOnCamping?.length === undefined
+                            {currentAmountOnCamping?.length === undefined || arrivalsData?.length === undefined
                                 ? "Loading..."
-                                : currentAmountOnCamping?.length}
+                                : currentAmountOnCamping?.length - arrivalsData?.length}
                         </p>
                     </InformationBlok>
                 </div>

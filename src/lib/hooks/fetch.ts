@@ -1,5 +1,6 @@
+
 import { useState, useEffect } from "react";
-``;
+
 export function useData<T>(url: string): T | undefined {
     const [data, setData] = useState<T>();
     useEffect(() => {
