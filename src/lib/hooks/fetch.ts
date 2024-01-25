@@ -9,7 +9,6 @@ export function useData<T>(url: string): T | undefined {
             headers: {
                 "Content-Type": "application/json",
                 mode: "no-cors",
-                "Access-Control-Allow-Origin": "*",
             },
         })
             .then((res) => res.json())
