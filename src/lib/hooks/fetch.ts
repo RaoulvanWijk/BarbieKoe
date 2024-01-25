@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 
 export function useData<T>(url: string): T | undefined {
     const [data, setData] = useState<T>();
-
+    const cookies = document.cookie.split(";").map((cookie) => cookie.split("="));
+    console.log(cookies);
+    
     useEffect(() => {
         let ignore = false;
         fetch(url, {

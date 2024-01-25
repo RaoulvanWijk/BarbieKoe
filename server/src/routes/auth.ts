@@ -18,8 +18,8 @@ router.get("/users", async (req, res) => {
   res.status(200).send(resu[0]);
 });
 
-router.get("/validate", async (req, res) => {
-  const token = req.cookies?.token ?? '';
+router.get("/validate/:token", async (req, res) => {
+  const token = req.params.token;
   if (!token) return res.status(401).send({ error: "No token provided" });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as Secret) as JwtPayload;
