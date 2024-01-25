@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { useData } from "@/lib/hooks/fetch";
 
 export const AuthMiddleware = () => {
