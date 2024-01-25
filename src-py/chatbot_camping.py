@@ -4,10 +4,8 @@ from spacy.matcher import Matcher
 import json
 
 # Load spaCy model
-nlp = spacy.load("en_core_web_sm") 
-
-# ... (previous code remains unchanged)
-
+# Load Dutch spaCy model
+nlp = spacy.load("nl_core_news_sm")
 def process_user_input(user_input: str):
     # Use spaCy for natural language processing
     doc = nlp(user_input)
@@ -18,21 +16,46 @@ def process_user_input(user_input: str):
 
     return entities, keywords
 
-def chat_bot():
-    knowledge_base: dict = load_knowledge_base('knowledge_base.json')
-    new_answer: str = ""
+def chat_bot(user_input):
+    knowledge_base = load_knowledge_base('knowledge_base.json')
+    bot_response = ""
 
-    while True:
-        user_input: str = input('You: ')
+    entities, keywords = process_user_input(user_input)
 
-        if user_input.lower() == 'quit':
-            break
+    if 'hallo' in keywords or 'hoi' in keywords:
+        bot_response = 'Bot: Hallo, hoe kan ik je helpen?'
 
-        entities, keywords = process_user_input(user_input)
+    elif 'doei' in keywords or 'tot ziens' in keywords:
+        bot_response = 'Bot: Doei, prettige dag verder.'
 
-        # Use entities and keywords for matching and handling user input
+    elif 'greeting' in entities:
+        bot_response = 'Bot: Hallo, hoe kan ik je helpen?'
 
-        # ... (rest of the code)
+    elif 'goodbye' in entities:
+        bot_response = 'Bot: Doei, prettige dag verder.'
+
+    else:
+        # No specific match, check knowledge base
+        best_match = find_best_match(user_input, [q["question"] for q in knowledge_base.get("questions", [])])
+
+        if best_match:
+            answer = get_answer_for_question(best_match, knowledge_base)
+            if answer is not None:
+                bot_response = f'Bot: {answer}'
+            else:
+                bot_response = 'Bot: Ik weet het antwoord niet. Kunt u mij leren?'
+                new_answer = input('Type the answer or "skip" to skip: ')
+
+                if new_answer.lower() != 'skip':
+                    knowledge_base["questions"].append({"question": user_input, "answer": new_answer})
+                    save_knowledge_base('knowledge_base.json', knowledge_base)
+                    bot_response = 'Bot: Thank you! I learned a new response!'
+
+        else:
+            bot_response = 'Ik kan je helaas /niet helpen hiermee?'
+
+    return bot_response
+
 
 # -------------------------------------------------------------------------------------------------------------------------------
 import json
@@ -64,52 +87,36 @@ def get_answer_for_question(question: str, knowledge_base: dict) -> str | None:
             return q["answer"]
     return None
 
-def chat_bot(user_input):
-    knowledge_base = load_knowledge_base('knowledge_base.json')
-    new_answer = ""
-    bot_response = ""
+# def chat_bot(user_input):
+#     knowledge_base = load_knowledge_base('knowledge_base.json')
+#     bot_response = ""
 
-    best_match = find_best_match(user_input, [q["question"] for q in knowledge_base.get("questions", [])])
+#     best_match = find_best_match(user_input, [q["question"] for q in knowledge_base.get("questions", [])])
 
-    if best_match:
-        answer = get_answer_for_question(best_match, knowledge_base)
-        print(answer)
-        if answer is not None:
-            bot_response = f'Bot: {answer}'
-        else:
-            bot_response = 'Bot: I don\'t know the answer. Can you teach me?'
-            new_answer = input('Type the answer or "skip" to skip: ')
+#     if best_match:
+#         answer = get_answer_for_question(best_match, knowledge_base)
+#         print(answer)
+#         if answer is not None:
+#             bot_response = f'Bot: {answer}'
+#         else:
+#             bot_response = 'Bot: I don\'t know the answer. Can you teach me?'
+#             new_answer = input('Type the answer or "skip" to skip: ')
 
-            if new_answer.lower() != 'skip':
-                knowledge_base["questions"].append({"question": user_input, "answer": new_answer})
-                save_knowledge_base('knowledge_base.json', knowledge_base)
-                bot_response = 'Bot: Thank you! I learned a new response!'
+#             if new_answer.lower() != 'skip':
+#                 knowledge_base["questions"].append({"question": user_input, "answer": new_answer})
+#                 save_knowledge_base('knowledge_base.json', knowledge_base)
+#                 bot_response = 'Bot: Thank you! I learned a new response!'
 
-    else:
-        bot_response = 'Bot: I don\'t know the answer. Can you teach me?'
-        # new_answer = input('Type the answer or "skip" to skip: ')
+#     else:
+#         bot_response = 'Bot: I don\'t know the answer. Can you teach me?'
 
-        if new_answer.lower() != 'skip':
-            knowledge_base["questions"].append({"question": user_input, "answer": new_answer})
-            save_knowledge_base('knowledge_base.json', knowledge_base)
-            bot_response = 'Bot: Thank you! I learned a new response!'
+#     return bot_response
 
-    return bot_response
-
- 
-def index():
-    return render_template('index.html')
-
+@app.route('/chat', methods=['POST'])
 def chat():
     user_input = request.form['user_input']
     response = chat_bot(user_input)
     return jsonify({'response': response})
 
 if __name__ == "__main__":
-    while True:
-        user_input = input('You: ')
-        if user_input.lower() == 'quit':
-            break
-        response = chat_bot(user_input)
-        print(response)
-
+    app.run(debug=True)

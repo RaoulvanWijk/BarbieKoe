@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const Chat = () => {
-  const [userInput, setUserInput] = useState<any>('');
-  const [chatLog, setChatLog] = useState<any>([]);
+  const [userInput, setUserInput] = useState<string>('');
+  const [chatLog, setChatLog] = useState<string[]>([]);
+  const chatLogRef = useRef<HTMLDivElement | null>(null);
 
   const sendMessage = () => {
-    // Make a POST request to the Flask server
     fetch('/chatbot', {
       method: 'POST',
       headers: {
@@ -14,34 +14,40 @@ const Chat = () => {
       body: 'user_input=' + encodeURIComponent(userInput),
     })
       .then(async (response) => await response.text())
-      .then(data => {
-        // Update chatLog with user input and bot response
+      .then((data) => {
         setChatLog([...chatLog, `You: ${userInput}`, `Bot: ${data}`]);
       });
   };
 
+  useEffect(() => {
+    if (chatLogRef.current) {
+      chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
+    }
+  }, [chatLog]);
 
   return (
-    <div>
-      <h1>Chatbot</h1>
-      <div id="chat-log">
-        {chatLog.map((message: any, index: any) => (
+    <div id="chat-container">
+      <h1 id="chat-title">Chatbot</h1>
+      <div id="chat-log" ref={chatLogRef}>
+        {chatLog.map((message, index) => (
           <p key={index}>{message}</p>
         ))}
       </div>
       <form
+        id="chat-form"
         onSubmit={(e) => {
           e.preventDefault();
+          setUserInput('');
           sendMessage();
         }}
       >
         <input
+          id="user-input"
           type="text"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           placeholder="You:"
         />
-        <button type="submit">Send</button>
       </form>
     </div>
   );

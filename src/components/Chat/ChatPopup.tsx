@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Chat from "@/components/Chat/Chat";
 
-
 const ChatPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -10,11 +9,12 @@ const ChatPopup = () => {
   };
 
   return (
-    <div>
-      <button onClick={togglePopup}>Open Chatbot</button>
+    <div> 
+      <button onClick={togglePopup}>
+        {isOpen ? 'Close Chatbot' : 'Open Chatbot'}
+      </button>
       {isOpen && (
         <div className="popup">
-          <button onClick={togglePopup}>Close</button>
           <Chat />
         </div>
       )}
