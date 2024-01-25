@@ -1,16 +1,19 @@
-import { useState } from "react";
-import Place from "./Place";
 import { useData } from "@/lib/hooks/fetch";
+import { Booking, Spot } from "@/lib/types/database";
 
 type PlaceInfoProps = {
-    id: number;
+    id: number | undefined;
     onClose: () => void;
 };
 export default function PlaceInfoDialog(props: PlaceInfoProps) {
     const id = props.id;
     console.log(id);
-    const spotsData: any[] = useData("/api/booking/info-camping-spot");
-    const bookingInfo: any[] = useData("/api/booking/all");
+    const spotsData = useData<Spot[]>(
+        "https://admin.barbiekoe.nl/api/booking/info-camping-spot"
+    );
+    const bookingInfo = useData<Booking[]>(
+        "https://admin.barbiekoe.nl/api/booking/all"
+    );
     const spot = spotsData?.find((spot) => spot.id === id);
     const booking = bookingInfo?.find(
         (booking) => booking.camping_spot_id === id
@@ -26,10 +29,9 @@ export default function PlaceInfoDialog(props: PlaceInfoProps) {
                 Inwoner: {booking?.first_name} {booking?.last_name}
             </p>
             <p>
-                Aankomst: {booking?.arrival_date} Vertrek:{" "}
-                {booking?.departure_date}
+                Aankomst: {booking?.arrival} Vertrek: {booking?.departure}
             </p>
-            <p>Telefoonnummer: {booking?.phone_number}</p>
+            <p>Telefoonnummer: {booking?.phone}</p>
             <p>Email: {booking?.email}</p>
         </div>
     ) : (

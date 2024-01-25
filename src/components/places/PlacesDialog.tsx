@@ -5,6 +5,7 @@ type PlaceBlokProps = {
     contents: any[];
 };
 export default function PlacesDialog(props: PlaceBlokProps) {
+    console.log(props.contents);
     return (
         <dialog className={`${props.type} text-lg places-dialog`}>
             <div className="header">
@@ -12,7 +13,11 @@ export default function PlacesDialog(props: PlaceBlokProps) {
                 <button
                     className="text-blue-400 text-lg"
                     onClick={() =>
-                        document.querySelector("." + props.type)?.close()
+                        (
+                            document.querySelector(
+                                "." + props.type
+                            ) as HTMLDialogElement
+                        ).close()
                     }
                 >
                     x

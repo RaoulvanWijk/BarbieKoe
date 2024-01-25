@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "/resources/styles/components/places/places.scss";
 import PlaceInfoDialog from "./PlaceInfoDialog";
-import { set } from "react-hook-form";
 
 type PlaceBlokProps = {
-    id: number;
-    name: string;
-    notes: string;
-    family: string;
-    type: number;
+    id: number | undefined;
+    name: string | undefined;
+    notes: string | undefined;
+    family: string | undefined;
+    type: number | undefined;
 };
 export default function Place(props: PlaceBlokProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);

@@ -2,19 +2,22 @@ import PageLayout from "@/components/Layout/PageLayout";
 import Place from "@/components/places/Place";
 import PlacesDialog from "@/components/places/PlacesDialog";
 import { useData } from "@/lib/hooks/fetch";
+import { Spot } from "@/lib/types/database";
 
 export default function Places() {
     // get places data
-    const spotsData: any[] = useData("/api/booking/info-camping-spot");
+    const spotsData = useData<Spot[]>(
+        "https://admin.barbiekoe.nl/api/booking/info-camping-spot"
+    );
 
     const availableSpots = [];
     const unavailableSpots = [];
 
-    for (let i = 0; i < spotsData?.length; i++) {
-        if (spotsData[i].spot_status === 0) {
+    for (let i = 0; i < (spotsData?.length ? spotsData?.length : 0); i++) {
+        if (spotsData?.[i].spot_status === 0) {
             availableSpots.push(spotsData[i]);
         } else {
-            unavailableSpots.push(spotsData[i]);
+            unavailableSpots.push(spotsData?.[i]);
         }
     }
 
@@ -42,9 +45,11 @@ export default function Places() {
                     <button
                         className="text-blue-400 mt-3"
                         onClick={() =>
-                            document
-                                .querySelector(".available_places")
-                                ?.showModal()
+                            (
+                                document.querySelector(
+                                    ".available_places"
+                                ) as HTMLDialogElement
+                            )?.showModal()
                         }
                     >
                         Meer plekken...
@@ -67,9 +72,11 @@ export default function Places() {
                     <button
                         className="text-blue-400 mt-3"
                         onClick={() =>
-                            document
-                                .querySelector(".unavailable_places")
-                                ?.showModal()
+                            (
+                                document.querySelector(
+                                    ".unavailable_places"
+                                ) as HTMLDialogElement
+                            )?.showModal()
                         }
                     >
                         Meer plekken...
