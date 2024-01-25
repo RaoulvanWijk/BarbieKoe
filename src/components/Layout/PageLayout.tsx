@@ -6,6 +6,8 @@ import Sidenav from "@components/Layout/SideNav.tsx";
 import React from "react";
 import "/resources/styles/components/layout/page-layout.scss";
 
+import ChatPopup from "../Chat/ChatPopup";
+
 type PageLayoutProps = {
   pageTitle?: string;
   children: React.ReactNode;
@@ -17,7 +19,9 @@ export default function PageLayout(props: PageLayoutProps) {
       <TopNav />
       <PageContainer>
         <PageHeader pageTitle={props.pageTitle} />
-        <div>{props.children}</div>
+        <div>{props.children}
+        <ChatPopup />
+        </div>
       </PageContainer>
     </div>
   );

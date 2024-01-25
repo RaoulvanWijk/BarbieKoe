@@ -4,14 +4,12 @@ import Modal from "@/components/Layout/Modal";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { bookingSchema, TBookingSchema } from "@/lib/types/zodSchemes";
-import { useEffect } from "react";
 
 export default function TopNav() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm<TBookingSchema>({
     resolver: zodResolver(bookingSchema),
   });

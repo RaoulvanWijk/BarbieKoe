@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Chat from "@/components/Chat/Chat";
 
+import "/resources/styles/components/chat/chat.scss";
 const ChatPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -10,7 +11,7 @@ const ChatPopup = () => {
 
   return (
     <div> 
-      <button onClick={togglePopup}>
+      <button className='popup-button' onClick={togglePopup}>
         {isOpen ? 'Close Chatbot' : 'Open Chatbot'}
       </button>
       {isOpen && (
