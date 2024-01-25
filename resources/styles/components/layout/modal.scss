@@ -1,0 +1,49 @@
+.modal {
+  position: absolute;
+  inset: 0 0 0 0;
+  height: fit-content;
+  width: fit-content;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
+  padding: 2rem;
+  border-radius: 0.5rem;
+
+  ::backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  &[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2.5rem;
+
+    button {
+      color: red;
+    }
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+.modal-open {
+  @apply bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-200;
+  &.blue {
+    @apply bg-blue-500 hover:bg-blue-700;
+  }
+
+  &.orange {
+    @apply bg-orange-500 hover:bg-orange-700;
+  }
+}

@@ -1,0 +1,53 @@
+.place {
+    .place-body {
+        display: flex;
+        gap: 2.25rem;
+        padding: 0.5rem;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .content {
+        display: flex;
+        gap: 2.25rem;
+    }
+}
+
+.place-container {
+    background-color: var(--heading-color);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.place-container-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+    width: 100%;
+}
+
+.places-dialog {
+    width: 50vw;
+    height: 50vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    transform: translate(-50%, -50%);
+    background-color: var(--heading-color);
+    box-shadow: 0 0 1em black;
+    .header {
+        display: flex;
+        justify-content: space-between;
+    }
+    .content {
+        // make scrollable
+        overflow-y: auto;
+        height: 85%;
+        margin-top: 1rem;
+        width: 100%;
+        .place-container {
+            width: 100%;
+        }
+    }
+}

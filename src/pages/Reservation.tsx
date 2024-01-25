@@ -1,12 +1,17 @@
-import '/resources/styles/components/layout/top-nav.scss'
-import Profile from './Profile'
+import PageLayout from "@/components/Layout/PageLayout"
+import { useData } from "@/lib/hooks/fetch";
+import { useParams } from "react-router-dom"
+import { ReservationFetch } from "@/lib/types/database";
+
+import LageItem from "@/components/Reservation/LageItem";
 import Modal from "@/components/Layout/Modal";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { bookingSchema, TBookingSchema } from "@/lib/types/zodSchemes";
 import { useEffect } from "react";
-
-export default function TopNav() {
+export default function Reservation() {
+  const id = useParams<{ id: string }>().id
+  const reservation = useData<ReservationFetch[]>(`/api/booking/find/${id}`)
   const {
     register,
     handleSubmit,
@@ -15,12 +20,33 @@ export default function TopNav() {
   } = useForm<TBookingSchema>({
     resolver: zodResolver(bookingSchema),
   });
+  useEffect(() => {
+    // set the form values to the reservation values
+    setValue("first_name", reservation?.[0].first_name ?? null)
+    setValue("last_name", reservation?.[0].last_name ?? null)
+    setValue("email", reservation?.[0].email ?? null)
+
+    setValue("phone", reservation?.[0].phone ?? null)
+    setValue("arrival", reservation?.[0].arrival ? new Date(reservation?.[0].arrival) : new Date())
+    setValue("departure", reservation?.[0].departure ? new Date(reservation?.[0].departure) : new Date())
+    setValue("young_child", reservation?.[0].young_child ?? 0)
+    setValue("child", reservation?.[0].child ?? 0)
+    setValue("adult", reservation?.[0].adult ?? 0)
+    setValue("notes", reservation?.[0].notes ?? null)
+    setValue("streetname", reservation?.[0].streetname ?? null)
+    setValue("house_number", reservation?.[0].house_number.toString() ?? null)
+    setValue("city", reservation?.[0].city ?? null)
+    setValue("zipcode", reservation?.[0].zipcode ?? null)
+    setValue("country", reservation?.[0].country ?? "")
+    setValue("license_plate", reservation?.[0].license_plate ?? null)
+    setValue("camping_spot_id", reservation?.[0].camping_spot_id ?? 0)
+  }, [reservation])
 
   const onSubmit = async (data: TBookingSchema) => {
     console.log(data);
 
-    fetch(`/api/booking/create`, {
-      method: "POST",
+    fetch(`/api/booking/update-info/${id}`, {
+      method: "PUT",
       body: JSON.stringify({
         first_name: data.first_name,
         last_name: data.last_name,
@@ -46,10 +72,13 @@ export default function TopNav() {
     }).then(() => {
       window.location.href = "/reservations"
     })
-  };
+  }
   return (
-    <nav className='top-nav'>
-      <Modal mid={"create"} title="Update reservering" buttonProps={{ text: "Maak een nieuwe reservering", color: "orange" }}>
+    <PageLayout pageTitle={`Reservering van ${reservation?.[0].first_name} ${reservation?.[0].last_name}`}>
+      <LageItem reservation={reservation?.[0]} />
+
+      <div className="flex justify-between">
+        <Modal mid={"update"} title="Update reservering" buttonProps={{ text: "Update de reservering", color: "blue" }}>
           <form onSubmit={handleSubmit(onSubmit)}
             className="grid grid-cols-3 gap-4">
             {/* Create form for TBookingSchema properties */}
@@ -146,13 +175,38 @@ export default function TopNav() {
             </div>
 
 
-            <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded transition duration-200 mt-4" type="submit">
-              Plaats reservering
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200 mt-4" type="submit">
+              Update
             </button>
           </form>
         </Modal>
+        <Modal mid={"delete"} title="Weet u zeker dat u deze reservering wilt annuleren?" buttonProps={{ text: "Annuleer de reserveringen", color: "red" }}>
+          <button className="
+          bg-red-500
+          hover:bg-red-700
+          text-white
+          font-bold
+          py-2
+          px-4
+          rounded
+          transition
+          duration-200
 
-      <Profile />
-    </nav>
+          mt-4
+          " onClick={
+              () => {
+                fetch(`/api/booking/delete/${id}`, {
+                  method: "DELETE"
+                }).then(() => {
+                  window.location.href = "/reservations"
+                })
+              }
+            } type="button">
+            Annuleer de reservering
+          </button>
+        </Modal>
+      </div>
+    </PageLayout>
+
   )
 }

@@ -7,12 +7,12 @@ import { useData } from "@/lib/hooks/fetch";
 
 export default function Dashboard() {
     // get arrivals data
-    const arrivalsData: [] = useData("/api/booking/info-arrivals");
-    const currentAmountOnCamping: [] = useData("/api/booking/info-today");
+    const arrivalsData= useData<any>("/api/booking/info-arrivals");
+    const currentAmountOnCamping = useData<any>("/api/booking/info-today");
     // get camping spots data
-    const campingSpotsData: any = useData("/api/booking/info-camping-spot");
-    const bookkeepingData: any = useData("/api/booking/bookkeeping");
-    const getAvailableSpotsData: any = useData(
+    const campingSpotsData = useData<any>("/api/booking/info-camping-spot");
+    const bookkeepingData = useData<any>("/api/booking/bookkeeping");
+    const getAvailableSpotsData = useData<any>(
         "/api/booking/info-available-spot"
     );
 
@@ -31,14 +31,17 @@ export default function Dashboard() {
         <PageLayout pageTitle="Dashboard">
             <div className="container flex-col">
                 <div className="container">
-                    <InformationBlok name="Aankomsten">
+                    <InformationBlok name="Aankomsten" route="/">
                         <p>
                             {arrivalsData?.length === undefined
                                 ? "Loading..."
                                 : arrivalsData?.length}
                         </p>
                     </InformationBlok>
-                    <InformationBlok name="Plekken over / totaal plekken">
+                    <InformationBlok
+                        name="Plekken over / totaal plekken"
+                        route="/"
+                    >
                         <p>
                             {getAvailableSpotsData?.length == undefined ||
                             campingSpotsData?.length == undefined
@@ -46,19 +49,19 @@ export default function Dashboard() {
                                 : `${getAvailableSpotsData?.length} / ${campingSpotsData?.length}`}
                         </p>
                     </InformationBlok>
-                    <InformationBlok name="Inkomsten">
+                    <InformationBlok name="Inkomsten" route="/">
                         <p>€{geld}</p>
                     </InformationBlok>
-                    <InformationBlok name="Mensen op de camping">
+                    <InformationBlok name="Mensen op de camping" route="/">
                         <p>
-                            {currentAmountOnCamping?.length === undefined
+                            {currentAmountOnCamping?.length === undefined || arrivalsData?.length === undefined
                                 ? "Loading..."
-                                : currentAmountOnCamping?.length}
+                                : currentAmountOnCamping?.length - arrivalsData?.length}
                         </p>
                     </InformationBlok>
                 </div>
                 <div className="container">
-                    <InformationBlok name="Onderhoud">
+                    <InformationBlok name="Onderhoud" route="/plaatsen">
                         <RepairBlok
                             type="Elektriciteit"
                             description="Geen elektriciteit"
@@ -80,7 +83,7 @@ export default function Dashboard() {
                     </InformationBlok>
                 </div>
                 <div className="container">
-                    <InformationBlok name="Berichten">
+                    <InformationBlok name="Berichten" route="/">
                         <p>0</p>
                     </InformationBlok>
                 </div>
