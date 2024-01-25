@@ -46,7 +46,7 @@ const sortReservations = (
 };
 
 export default function Reservations() {
-  const reservations = useData<ReservationFetch[]>("https://admin.barbiekoe.nl/api/booking/all");
+  const reservations = useData<ReservationFetch[]>("/api/booking/all");
 
   // handle sort
   const [sort, setSort] = useState<SortType>("created_last");

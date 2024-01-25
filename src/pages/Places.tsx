@@ -7,7 +7,7 @@ import { Spot } from "@/lib/types/database";
 export default function Places() {
     // get places data
     const spotsData = useData<Spot[]>(
-        "https://admin.barbiekoe.nl/api/booking/info-camping-spot"
+        "/api/booking/info-camping-spot"
     );
 
     const availableSpots = [];

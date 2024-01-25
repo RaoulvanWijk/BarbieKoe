@@ -9,10 +9,10 @@ export default function PlaceInfoDialog(props: PlaceInfoProps) {
     const id = props.id;
     console.log(id);
     const spotsData = useData<Spot[]>(
-        "https://admin.barbiekoe.nl/api/booking/info-camping-spot"
+        "/api/booking/info-camping-spot"
     );
     const bookingInfo = useData<Booking[]>(
-        "https://admin.barbiekoe.nl/api/booking/all"
+        "/api/booking/all"
     );
     const spot = spotsData?.find((spot) => spot.id === id);
     const booking = bookingInfo?.find(

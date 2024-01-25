@@ -5,7 +5,7 @@ import { useData } from "@/lib/hooks/fetch";
 export const AuthMiddleware = () => {
   const location = useLocation();
 
-  const user = useData<any>("https://admin.barbiekoe.nl/api/auth/validate");
+  const user = useData<any>("/api/auth/validate");
 
   // const [user, setUser] = useState<any>(null);
   // const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ export const AuthMiddleware = () => {
   // useEffect(() => {
   //   setLoading(true);
   //   const fetchUser = async () => {
-  //     const response = await fetch("https://admin.barbiekoe.nl/api/auth/validate", {
+  //     const response = await fetch("/api/auth/validate", {
   //       method: "GET",
   //       headers: {
   //         "Content-Type": "application/json",

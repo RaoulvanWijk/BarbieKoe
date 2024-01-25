@@ -7,13 +7,13 @@ import { useData } from "@/lib/hooks/fetch";
 
 export default function Dashboard() {
     // get arrivals data
-    const arrivalsData= useData<any>("https://admin.barbiekoe.nl/api/booking/info-arrivals");
-    const currentAmountOnCamping = useData<any>("https://admin.barbiekoe.nl/api/booking/info-today");
+    const arrivalsData= useData<any>("/api/booking/info-arrivals");
+    const currentAmountOnCamping = useData<any>("/api/booking/info-today");
     // get camping spots data
-    const campingSpotsData = useData<any>("https://admin.barbiekoe.nl/api/booking/info-camping-spot");
-    const bookkeepingData = useData<any>("https://admin.barbiekoe.nl/api/booking/bookkeeping");
+    const campingSpotsData = useData<any>("/api/booking/info-camping-spot");
+    const bookkeepingData = useData<any>("/api/booking/bookkeeping");
     const getAvailableSpotsData = useData<any>(
-        "https://admin.barbiekoe.nl/api/booking/info-available-spot"
+        "/api/booking/info-available-spot"
     );
 
     // get bookkeeping data
