@@ -11,8 +11,6 @@ import Places from "@pages/Places";
 import Reservations from "@pages/Reservations";
 import Reservation from "./pages/Reservation";
 
-import ChatTest from "./pages/ChatTest";
-
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="*" element={<AuthMiddleware />}>
