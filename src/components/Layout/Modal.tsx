@@ -4,6 +4,7 @@ import "/resources/styles/components/layout/modal.scss";
 
 type ModalProps = {
   title: string;
+  buttonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
   children: React.ReactNode;
 };
 
@@ -16,7 +17,7 @@ export default function Modal(props: ModalProps) {
       <dialog className="modal">
         <div className="modal-header">
           <h1 className="modal-title">{props.title}</h1>
-          <button className="modal-close">X</button>
+          <button onClick={() => modal.close()} className="modal-close">X</button>
         </div>
         {
           props.children
