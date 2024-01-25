@@ -58,8 +58,8 @@ router.get("/logout", async (req, res) => {
 }
 );
 
-router.get("/me/:token", async (req, res) => {
-  const token = req.params.token;
+router.get("/me", async (req, res) => {
+  const token = req.cookies?.token ?? '';
   if (!token) return res.status(401).send({ error: "No token provided" });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as Secret) as JwtPayload;
