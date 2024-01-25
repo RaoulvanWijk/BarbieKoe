@@ -33,7 +33,6 @@ export default function LoginForm(loginFormProps: LoginFormProps) {
       }),
       headers: {
         "Content-Type": "application/json",
-        "credentials": "include",
       },
     });
     console.log(response);
@@ -43,7 +42,6 @@ export default function LoginForm(loginFormProps: LoginFormProps) {
         message: "Wachtwoord is onjuist"
       })
     } else {
-      document.cookie = "token=" + (await response.json()).token + "; path=/;";
       navigate(0);
       navigate("/dashboard");
     }

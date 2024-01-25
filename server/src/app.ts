@@ -7,7 +7,6 @@ dotenv.config();
 const app = Express();
 app.use(Express.json());
 app.use(cookieParser());
-
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
