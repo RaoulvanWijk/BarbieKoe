@@ -1,0 +1,52 @@
+{
+  "questions": [
+    {
+      "question": "wat is jou naam?",
+      "answer": "mijn naam is Chatbot Barbiekoe"
+    },
+    {
+      "question": "hoe is het?",
+      "answer": "goed dankjewel, kan ik jou ergens mee helpen?"
+    },
+    {
+      "question": "Wat zijn populaire campings in Nederland?",
+      "answer": "Enkele populaire campings in Nederland zijn De Paal, De Kleine Wolf en Vakantiepark Beekse Bergen."
+    },
+    {
+      "question": "Hoe reserveer ik een kampeerplek op jullie website?",
+      "answer": "Om een kampeerplek te reserveren, ga naar onze website, selecteer de gewenste data en kies de beschikbare kampeerplek die het beste bij je past. Volg daarna de instructies om de reservering te voltooien."
+    },
+    {
+      "question": "Zijn huisdieren toegestaan op de camping?",
+      "answer": "Ja, op veel van onze campings zijn huisdieren toegestaan. Zorg ervoor dat je bij het maken van een reservering aangeeft dat je een huisdier meeneemt, zodat we een geschikte plek voor je kunnen regelen."
+    },
+    {
+      "question": "Welke activiteiten worden aangeboden op de camping?",
+      "answer": "Op onze camping worden diverse activiteiten aangeboden. Je kunt informatie vinden op onze website of bij de receptie van de camping."
+    },
+    {
+      "question": "Wat zijn de beste periodes voor kamperen in Nederland?",
+      "answer": "De beste periodes voor kamperen in Nederland zijn meestal het voorjaar (april tot juni) en het najaar (september tot oktober). Het weer is dan vaak aangenaam en er zijn minder drukte op de campings."
+    },
+    {
+      "question": "Wat zijn de openingstijden van jullie klantenservice?",
+      "answer": "Onze klantenservice is bereikbaar van maandag tot en met vrijdag van 9:00 tot 17:00 uur. Je kunt ook 24/7 contact met ons opnemen via de chat op onze website."
+    },
+    {
+      "question": "Hoe kan ik mijn wachtwoord opnieuw instellen?",
+      "answer": "Om je wachtwoord opnieuw in te stellen, ga naar de inlogpagina en klik op 'Wachtwoord vergeten'. Volg de instructies op het scherm om een nieuw wachtwoord in te stellen."
+    },
+    {
+      "question": "Kunnen jullie helpen met het annuleren van mijn reservering?",
+      "answer": "Ja, we kunnen je helpen met het annuleren van je reservering. Neem contact op met onze klantenservice en verstrek de details van je reservering, zodat we je zo goed mogelijk kunnen assisteren."
+    },
+    {
+      "question": "Zijn er speciale aanbiedingen of kortingen beschikbaar?",
+      "answer": "Ja, we hebben regelmatig speciale aanbiedingen en kortingen beschikbaar. Houd onze website in de gaten of schrijf je in voor onze nieuwsbrief om op de hoogte te blijven van de laatste aanbiedingen."
+    },
+    {
+      "question": "Wat is jullie annuleringsbeleid?",
+      "answer": "Ons annuleringsbeleid varieert afhankelijk van het type reservering en de voorwaarden. Raadpleeg onze annuleringsvoorwaarden op de website of neem contact op met de klantenservice voor specifieke informatie."
+    }
+  ]
+}

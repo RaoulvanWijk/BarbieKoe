@@ -6,7 +6,7 @@ import { loginSchema, TLoginSchema } from "@/lib/types/zodSchemes";
 import { SafeUser } from "@/lib/types/database";
 
 // import react redirect to redirect to home page after login
-import { useNavigate   } from "react-router";
+import { useNavigate } from "react-router";
 
 type LoginFormProps = {
   selectedUser: SafeUser;
@@ -36,7 +36,7 @@ export default function LoginForm(loginFormProps: LoginFormProps) {
       },
     });
     console.log(response);
-    if(!response.ok) {
+    if (!response.ok) {
       setError("password", {
         type: "manual",
         message: "Wachtwoord is onjuist"
@@ -60,7 +60,7 @@ export default function LoginForm(loginFormProps: LoginFormProps) {
           />
           <button type="submit">&gt;</button>
         </div>
-          {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+        {errors.password && <p className="text-red-500">{errors.password.message}</p>}
         <a href="">Wachtwoord vergeten?<br />
         </a>
       </form>
