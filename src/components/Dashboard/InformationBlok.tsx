@@ -19,7 +19,7 @@ export default function InformationBlok(props: InformationBlokProps) {
             {props.children}
             {
                 !props.moreInfoProps?.dontUse && (
-                    <Link to={props.route ?? "/dashboard"} className="text-blue-400 mt-5 info-link-text">
+                    <Link to={props.route ? props.route : "/dashboard"} className="text-blue-400 mt-5 info-link-text">
                         {props.moreInfoProps?.text ?? "Meer info →"}
                     </Link>
                 )
